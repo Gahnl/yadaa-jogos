@@ -33,9 +33,9 @@ color:  #070c55;
 }
 
 .game-iframe{
-width: 70%;
-height: 650px;
-display: flex;
+    width: 70%;
+    height: 650px;
+    display: flex;
     align-items: center;
     justify-content: center;
     align-self: center;
