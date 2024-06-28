@@ -33,8 +33,13 @@ color:  #070c55;
 }
 
 .game-iframe{
-width: 100%;
+width: 70%;
 height: 650px;
+display: flex;
+    align-items: center;
+    justify-content: center;
+    align-self: center;
+
 }
 .game-button{
     height: 56px;
