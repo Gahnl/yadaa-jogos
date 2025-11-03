@@ -14,51 +14,58 @@
 
 <div class="container">
   <h2>Cadastrar Professor</h2>
-<input type="text" id="profName" placeholder="Nome do professor">
-<input type="email" id="profEmail" placeholder="E-mail">
-<input type="password" id="profSenha" placeholder="Senha">
 
-<label for="profMateria">Matéria:</label>
-<select id="profMateria">
-  <option value="">Selecione a matéria</option>
-  <option value="Matemática">Matemática</option>
-  <option value="Português">Português</option>
-  <option value="Arte">Arte</option>
-  <option value="História">História</option>
-  <option value="Geografia">Geografia</option>
-  <option value="Informática">Informática</option>
-  <option value="Inglês">Inglês</option>
-  <option value="Ciências">Ciências</option>
-  <option value="Educação Física">Educação Física</option>
-</select>
+  <input type="text" id="profName" placeholder="Nome do professor">
+  <input type="email" id="profEmail" placeholder="E-mail">
+  <input type="password" id="profSenha" placeholder="Senha">
 
-<button id="btnCreateProf">Cadastrar Professor</button>
+  <label for="profMateria">Matéria:</label>
+  <select id="profMateria">
+    <option value="">Selecione a matéria</option>
+    <option value="Matemática">Matemática</option>
+    <option value="Português">Português</option>
+    <option value="Arte">Arte</option>
+    <option value="História">História</option>
+    <option value="Geografia">Geografia</option>
+    <option value="Informática">Informática</option>
+    <option value="Inglês">Inglês</option>
+    <option value="Ciências">Ciências</option>
+    <option value="Educação Física">Educação Física</option>
+  </select>
 
-<hr>
-
-<h2>Cadastrar Aluno</h2>
-<input type="text" id="alunoName" placeholder="Nome do aluno">
-<input type="email" id="alunoEmail" placeholder="E-mail">
-<input type="password" id="alunoSenha" placeholder="Senha">
-
-<label for="alunoSerie">Série:</label>
-<select id="alunoSerie">
-  <option value="">Selecione a série</option>
-  <option>1º ano</option>
-  <option>2º ano</option>
-  <option>3º ano</option>
-  <option>4º ano</option>
-  <option>5º ano</option>
-  <option>6º ano</option>
-  <option>7º ano</option>
-  <option>8º ano</option>
-  <option>9º ano</option>
-</select>
-
-<button id="btnCreateAluno">Cadastrar Aluno</button>
-
+  <button id="btnCreateProf">Cadastrar Professor</button>
 
   <hr>
+
+  <h2>Cadastrar Aluno</h2>
+
+  <input type="text" id="alunoName" placeholder="Nome do aluno">
+  <input type="email" id="alunoEmail" placeholder="E-mail">
+  <input type="password" id="alunoSenha" placeholder="Senha">
+
+  <label for="alunoSerie">Série:</label>
+  <select id="alunoSerie">
+    <option value="">Selecione a série</option>
+    <option>1º ano</option>
+    <option>2º ano</option>
+    <option>3º ano</option>
+    <option>4º ano</option>
+    <option>5º ano</option>
+    <option>6º ano</option>
+    <option>7º ano</option>
+    <option>8º ano</option>
+    <option>9º ano</option>
+  </select>
+
+  <button id="btnCreateAluno">Cadastrar Aluno</button>
+
+  <hr>
+
+  <!-- 🔹 Novo botão para acessar a página de usuários -->
+  <div style="text-align:center; margin-top:20px;">
+    <button id="btnVerUsuarios" class="btn-acessar">Ver Usuários Cadastrados</button>
+  </div>
+
   <a href="index.html">Sair do sistema</a>
 </div>
 

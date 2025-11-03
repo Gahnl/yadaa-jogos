@@ -1,21 +1,25 @@
 import { auth, db } from "./firebase.js";
-import { createUserWithEmailAndPassword, signOut } from "https://www.gstatic.com/firebasejs/10.13.1/firebase-auth.js";
+import { createUserWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.13.1/firebase-auth.js";
 import { ref, set } from "https://www.gstatic.com/firebasejs/10.13.1/firebase-database.js";
 
 document.addEventListener("DOMContentLoaded", () => {
+  // Campos de professor
   const profName = document.getElementById("profName");
   const profEmail = document.getElementById("profEmail");
   const profSenha = document.getElementById("profSenha");
   const profMateria = document.getElementById("profMateria");
   const btnCreateProf = document.getElementById("btnCreateProf");
 
+  // Campos de aluno
   const alunoName = document.getElementById("alunoName");
   const alunoEmail = document.getElementById("alunoEmail");
   const alunoSenha = document.getElementById("alunoSenha");
   const alunoSerie = document.getElementById("alunoSerie");
   const btnCreateAluno = document.getElementById("btnCreateAluno");
 
-  // Cadastrar Professor
+  // =============================
+  // 🔹 CADASTRAR PROFESSOR
+  // =============================
   btnCreateProf.addEventListener("click", async () => {
     if (!profName.value || !profEmail.value || !profSenha.value || !profMateria.value) {
       alert("Preencha todos os campos do professor!");
@@ -40,7 +44,9 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   });
 
-  // Cadastrar Aluno
+  // =============================
+  // 🔹 CADASTRAR ALUNO
+  // =============================
   btnCreateAluno.addEventListener("click", async () => {
     if (!alunoName.value || !alunoEmail.value || !alunoSenha.value || !alunoSerie.value) {
       alert("Preencha todos os campos do aluno!");
@@ -64,4 +70,14 @@ document.addEventListener("DOMContentLoaded", () => {
       alert("Erro: " + err.message);
     }
   });
+
+  // =============================
+  // 🔹 ACESSAR LISTA DE USUÁRIOS
+  // =============================
+  const btnVerUsuarios = document.getElementById("btnVerUsuarios");
+  if (btnVerUsuarios) {
+    btnVerUsuarios.addEventListener("click", () => {
+      window.location.href = "usuarios.html";
+    });
+  }
 });
