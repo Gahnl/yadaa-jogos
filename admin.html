@@ -13,6 +13,8 @@
 </header>
 
 <div class="container">
+
+  <!-- Seção de cadastro de professor -->
   <h2>Cadastrar Professor</h2>
 
   <input type="text" id="profName" placeholder="Nome do professor">
@@ -22,21 +24,22 @@
   <label for="profMateria">Matéria:</label>
   <select id="profMateria">
     <option value="">Selecione a matéria</option>
-    <option value="Matemática">Matemática</option>
-    <option value="Português">Português</option>
-    <option value="Arte">Arte</option>
-    <option value="História">História</option>
-    <option value="Geografia">Geografia</option>
-    <option value="Informática">Informática</option>
-    <option value="Inglês">Inglês</option>
-    <option value="Ciências">Ciências</option>
-    <option value="Educação Física">Educação Física</option>
+    <option>Matemática</option>
+    <option>Português</option>
+    <option>Arte</option>
+    <option>História</option>
+    <option>Geografia</option>
+    <option>Informática</option>
+    <option>Inglês</option>
+    <option>Ciências</option>
+    <option>Educação Física</option>
   </select>
 
   <button id="btnCreateProf">Cadastrar Professor</button>
 
   <hr>
 
+  <!-- Seção de cadastro de aluno -->
   <h2>Cadastrar Aluno</h2>
 
   <input type="text" id="alunoName" placeholder="Nome do aluno">
@@ -61,13 +64,79 @@
 
   <hr>
 
-  <!-- 🔹 Novo botão para acessar a página de usuários -->
-  <div style="text-align:center; margin-top:20px;">
+  <!-- 🔹 Seção de geração de listas -->
+  <h2 style="color:#32066d; text-align:center;">Gerar Lista de Notas e Faltas</h2>
+
+  <div class="form-card">
+
+    <div class="form-row">
+      <label for="filtroMateria">Matéria:</label>
+      <select id="filtroMateria">
+        <option value="">Selecione a matéria</option>
+        <option>Matemática</option>
+        <option>Português</option>
+        <option>Arte</option>
+        <option>História</option>
+        <option>Geografia</option>
+        <option>Informática</option>
+        <option>Inglês</option>
+        <option>Ciências</option>
+        <option>Educação Física</option>
+      </select>
+    </div>
+
+    <div class="form-row">
+      <label for="filtroSerie">Série:</label>
+      <select id="filtroSerie">
+        <option value="">Selecione a série</option>
+        <option>1º ano</option>
+        <option>2º ano</option>
+        <option>3º ano</option>
+        <option>4º ano</option>
+        <option>5º ano</option>
+        <option>6º ano</option>
+        <option>7º ano</option>
+        <option>8º ano</option>
+        <option>9º ano</option>
+      </select>
+    </div>
+
+    <div class="form-row">
+      <label for="filtroBimestre">Bimestre:</label>
+      <select id="filtroBimestre">
+        <option value="">Selecione o bimestre</option>
+        <option value="1">1º Bimestre</option>
+        <option value="2">2º Bimestre</option>
+        <option value="3">3º Bimestre</option>
+        <option value="4">4º Bimestre</option>
+      </select>
+    </div>
+
+    <div class="form-row">
+      <label for="filtroAluno">Aluno (opcional):</label>
+<input type="text" id="filtroAluno" list="listaAlunos" placeholder="Digite o nome do aluno">
+<datalist id="listaAlunos"></datalist>
+
+    </div>
+
+    <div style="text-align:center; margin-top:25px;">
+      <button id="btnGerarLista" class="btn-acessar">Criar Lista</button>
+    </div>
+  </div>
+
+  <hr>
+
+  <!-- 🔹 Botões extras -->
+  <div style="text-align:center; margin-top:15px;">
     <button id="btnVerUsuarios" class="btn-acessar">Ver Usuários Cadastrados</button>
   </div>
 
-  <a href="index.html">Sair do sistema</a>
+  <a href="index.html" class="btn-logout">Sair do sistema</a>
 </div>
+
+<footer>
+  <p>© 2025 - Colégio Saber Igaraçu do Tietê</p>
+</footer>
 
 <script type="module" src="js/admin.js"></script>
 </body>

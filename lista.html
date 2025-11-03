@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Lista de Alunos - Colégio Saber</title>
-  <link rel="stylesheet" href="professor.css">
+  <title>Planilha de Notas e Faltas</title>
+  <link rel="stylesheet" href="lista.css">
 </head>
 <body>
   <header>
@@ -15,7 +15,7 @@
   </header>
 
   <main class="container">
-    <div id="tabelaNotasFaltas" style="margin-top:20px;">
+    <div id="tabelaNotasFaltas" class="card">
       <p style="text-align:center; color:#555;">Carregando dados...</p>
     </div>
 
@@ -23,19 +23,14 @@
       <button id="btnExportarPDF" class="btn-acessar">Exportar PDF</button>
     </div>
 
-    <a href="professor.html" class="btn-logout" style="display:inline-block; margin-top:20px;">
-      Voltar
-    </a>
+    <a href="admin.html" class="btn-voltar">Voltar</a>
   </main>
 
   <footer>
     <p>© 2025 - Colégio Saber Igaraçu do Tietê</p>
   </footer>
 
-  <!-- Biblioteca para gerar PDF -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
-
-  <!-- Script principal -->
   <script type="module" src="js/lista.js"></script>
 </body>
 </html>

@@ -286,14 +286,6 @@ async function carregarConteudos() {
     listaConteudos.appendChild(li);
   }
 }
-// --------- ACESSAR LISTA ---------
-const btnAcessarLista = document.getElementById("acessarLista");
-if (btnAcessarLista) {
-  btnAcessarLista.addEventListener("click", () => {
-    window.location.href = "lista.html";
-  });
-}
-
 
 // --------- LOGOUT ---------
 document.querySelector("a[href='index.html']").addEventListener("click", async () => {

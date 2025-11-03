@@ -53,6 +53,68 @@ header img {
   background-color: #f9f630;
 }
 
+.form-card {
+  background-color: #ffffff;
+  border-radius: 12px;
+  padding: 25px;
+  margin: 20px 0;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.form-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 15px;
+  flex-wrap: wrap;
+}
+
+.form-row label {
+  font-weight: bold;
+  color: #32066d;
+  width: 160px;
+  text-align: right;
+  margin-right: 10px;
+}
+
+.form-row select,
+.form-row input {
+  flex: 1;
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  font-size: 14px;
+  min-width: 180px;
+}
+
+.btn-acessar {
+  background-color: #f8f008;
+  color: #32066d;
+  border: none;
+  padding: 10px 25px;
+  font-size: 16px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: 0.3s;
+}
+
+.btn-acessar:hover {
+  background-color: #fff200;
+}
+
+.btn-logout {
+  display: block;
+  margin: 25px auto 0;
+  text-align: center;
+  color: #32066d;
+  font-weight: bold;
+  text-decoration: none;
+}
+
+.btn-logout:hover {
+  text-decoration: underline;
+}
 
 
 footer { margin-top: 30px; color: #666; text-align:center; }
