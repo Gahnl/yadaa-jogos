@@ -1,0 +1,146 @@
+body {
+  font-family: Arial, sans-serif;
+  background: linear-gradient(135deg, #f0f0f0, #ffffff);
+  margin: 0;
+  padding: 0;
+  text-align: center;
+}
+
+header {
+  background-color: #32066d;
+  color: #f8f008;
+  padding: 20px;
+  position: relative;
+}
+
+header img {
+  position: absolute;
+  left: 20px;
+  height: 50px;
+}
+
+.container {
+  max-width: 700px;
+  margin: 30px auto;
+  background-color: white;
+  padding: 20px 30px;
+  border-radius: 12px;
+  box-shadow: 0 6px 18px rgba(0,0,0,0.08);
+  text-align: left;
+}
+
+.container select,
+.container input,
+.container textarea {
+  width: 100%;
+  padding: 8px;
+  margin: 8px 0;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+}
+
+.container button {
+  display: inline-block;
+  padding: 8px 16px;
+  margin: 14px auto 0 auto;
+  background-color: #f8f008;
+  color: #32066d;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: 0.15s;
+  text-align: center;
+}
+
+.container button:hover {
+  background-color: #f9f630;
+}
+
+#listaAlunosFaltas label {
+  display: block;
+  margin: 3px 0;
+}
+
+.list-card {
+  list-style: none;
+  padding: 0;
+  margin-top: 10px;
+}
+
+.list-card li {
+  margin: 5px 0;
+  background-color: #f9f9f9;
+  padding: 8px;
+  border-radius: 6px;
+}
+
+footer {
+  margin-top: 30px;
+  color: #666;
+  text-align: center;
+}
+
+/* Botão de logout */
+.btn-logout {
+  display: inline-block;
+  padding: 8px 16px;
+  margin: 14px auto;
+  background-color: #f8f008;
+  color: #32066d;
+  border-radius: 8px;
+  text-decoration: none;
+  cursor: pointer;
+  text-align: center;
+  transition: 0.15s;
+}
+
+.btn-logout:hover {
+  background-color: #f9f630;
+}
+
+/* --- CAMPOS DO LANÇAMENTO DE FALTAS --- */
+#selectBimestre {
+  width: 100%;
+  padding: 8px;
+  margin: 10px 0;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+}
+
+/* --- HISTÓRICO DE FALTAS --- */
+#historicoFaltas {
+  margin-top: 40px;
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 12px;
+  box-shadow: 0 6px 18px rgba(0,0,0,0.08);
+}
+
+#tabelaHistorico table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 15px;
+}
+
+#tabelaHistorico th {
+  background-color: #32066d;
+  color: #f8f008;
+  padding: 8px;
+  border: 1px solid #ddd;
+  font-weight: bold;
+}
+
+#tabelaHistorico td {
+  border: 1px solid #ddd;
+  padding: 6px;
+  text-align: center;
+  color: #333;
+}
+
+#tabelaHistorico tr:nth-child(even) {
+  background-color: #f9f9f9;
+}
+
+#tabelaHistorico tr:hover {
+  background-color: #f3f3ff;
+}
