@@ -1,41 +1,65 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html lang="pt-br">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Colégio Saber — Login</title>
-  <link rel="stylesheet" href="login.css">
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@200;400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="reset.css">
+    <link rel="stylesheet" href="header.css">
+    <link rel="stylesheet" href="footer.css">
+    <link rel="stylesheet" href="home.css">
+ 
+
+    <title>Yadaa Jogos</title>
 </head>
 <body>
-  <!-- Cabeçalho -->
-  <header>
-    <div class="header-container">
-      <img src="Assets/simbolo saber.jpg" alt="Logo">
-      <h1>Colégio Saber Igaraçu do Tietê</h1>
+    <header>
+        <div class="container header-wrapper">
+            <a href="./index.html"><img src="assets/logo_yadaa.png" alt="">
+            </a>
+          
+            <nav>
+                <a href="./index.html">Pagina Inicial</a>
+                <a href="./list.html">Lista de Jogos</a>
+                <a href="about.html">Sobre</a>
+            </nav>
+    
+        </div>
+    </header>
+
+    <main>
+    <div class="container hero-wrapper">
+        <div class="hero-content">
+        <h2 class="hero-title">Seja bem vindo!</h2>
+        <p class="hero-subtitle">O jogo da sustentabilidade, como uma atividade lúdica, foi desenvolvido com o objetivo de sensibilização em relação a temática da educação ambiental dentro de uma perspectiva que visa o cuidado, preservação e proteção da natureza, estimulando a reflexão das atitudes socioambientais.</p>
+        <a class="hero-button" href="./list.html">Bora lá</a>
     </div>
-  </header>
+    <img src="assets/jogos_yadaa-.png" alt="">
+    </main>
 
-  <!-- Formulário centralizado -->
-  <main class="login-container">
-    <h2>Login do Sistema</h2>
-    <form id="loginForm" class="form-card">
-      <label for="email">E-mail</label>
-      <input id="email" type="email" placeholder="seu@email.com" required>
-      
-      <label for="senha">Senha</label>
-      <input id="senha" type="password" placeholder="senha" required>
-      
-      <button type="submit">Entrar</button>
-    </form>
-    
-    <p id="mensagem" style="color:red; text-align:center; margin-top:10px;"></p>
-    
-  </main>
+    <footer>
+        <div class="container footer-wrapper">
+       
+        <nav>
+            <a href="https://www.facebook.com/yadaa.barra?locale=pt_BR">
+                <img src="./assets/icons/icons8-facebook-50 (1).png" alt="Ícone do Facebook">
+            </a>
+            <a href="https://www.instagram.com/yadaa.escola/">
+                <img src="./assets/icons/icons8-instagram-50.png" alt="Ícone do instagram">
+            </a>
+            <a href="https://www.youtube.com/@yadaa">
+                <img src="./assets/icons/icons8-youtube-50.png" alt="Ícone do Youtube">
+            </a>
+           
+        </nav>
+        <img src="assets/logo_yadaa branco.png" alt="">
 
-  <footer>
-    <p>© 2025 - Colégio Saber Igaraçu do Tietê</p>
-  </footer>
+    </div>
+    </footer>
 
-  <script type="module" src="js/login.js"></script>
 </body>
+
 </html>
