@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Painel do Aluno - Colégio Saber</title>
+  <link rel="stylesheet" href="aluno.css">
+</head>
+<body>
+  <header>
+    <img src="Assets/simbolo saber.png" alt="Logo">
+    <h1>Colégio Saber Igaraçu do Tietê</h1>
+  </header>
+
+  <div class="container">
+    <h2>Minhas Notas e Faltas</h2>
+
+    <div class="tabela-container">
+     <table id="tabelaNotas">
+  <thead>
+    <tr>
+      <th>Matéria</th>
+      <th>1º Bim</th>
+      <th>2º Bim</th>
+      <th>3º Bim</th>
+      <th>4º Bim</th>
+      <th>Final</th>
+    </tr>
+  </thead>
+  <tbody></tbody>
+</table>
+
+    </div>
+
+    <hr>
+
+    <button id="sairBtn">Sair</button>
+  </div>
+
+  <footer>
+    <p>© 2025 - Colégio Saber Igaraçu do Tietê</p>
+  </footer>
+
+  <!-- 🔥 OBRIGATÓRIO CARREGAR firebase.js ANTES do aluno.js -->
+  <script type="module" src="./js/firebase.js"></script>
+  <script type="module" src="./js/aluno.js"></script>
+
+</body>
+</html>

@@ -1,0 +1,375 @@
+/* ===========================
+   ESTILO GERAL
+   =========================== */
+
+body {
+  font-family: Arial, sans-serif;
+  background: linear-gradient(135deg, #f0f0f0, #ffffff);
+  margin: 0;
+  padding: 0;
+  text-align: center;
+}
+
+header {
+  display: flex;
+  align-items: center;
+  justify-content: center;   /* centraliza o texto */
+  position: relative;
+  padding: 20px;
+
+  background: linear-gradient(
+    to right,
+    #ffffff 15%,
+    #32066d 15%,
+    #32066d 85%,
+    #ffffff 85%,
+    #ffffff 100%
+  );
+
+  color: #f8f008;
+}
+
+/* Logo do header */
+header img {
+  position: absolute;
+  left: 20px;
+  height: 80px;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+header h1 {
+  margin: 0;
+  text-align: center;
+  font-size: 28px;
+}
+
+/* 📱 Ajustes para celular */
+@media (max-width: 600px) {
+
+  header {
+    padding: 15px;
+  }
+
+  header img {
+    height: 55px;    /* diminui no celular */
+    left: 10px;
+  }
+
+  header h1 {
+    font-size: 20px;  /* diminui o texto no celular */
+    max-width: 60%;   /* impede que o texto encoste na imagem */
+    margin-left: 40px;
+  }
+}
+
+
+/* Container Geral */
+.container {
+  max-width: 700px;
+  margin: 30px auto;
+  background-color: white;
+  padding: 20px 30px;
+  border-radius: 12px;
+  box-shadow: 0 6px 18px rgba(0,0,0,0.08);
+  text-align: left;
+}
+
+/* Inputs e elementos gerais */
+.container select,
+.container input,
+.container textarea {
+  width: 100%;
+  padding: 8px;
+  margin: 8px 0;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+}
+
+/* Botões gerais */
+.container button {
+  display: inline-block;
+  padding: 8px 16px;
+  margin: 14px auto 0 auto;
+  background-color: #f8f008;
+  color: #32066d;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: 0.15s;
+  text-align: center;
+}
+
+.container button:hover {
+  background-color: #f9f630;
+}
+
+/* ===========================
+   LISTA ALUNOS (FALTAS)
+   =========================== */
+
+#listaAlunosFaltas {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-top: 10px;
+  background-color: #fdfdfd;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  padding: 10px;
+}
+
+#listaAlunosFaltas div {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background-color: #fff;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  padding: 6px 10px;
+  box-shadow: 0 2px 3px rgba(0, 0, 0, 0.06);
+  transition: background-color 0.15s ease;
+  cursor: pointer;
+}
+
+#listaAlunosFaltas div:hover {
+  background-color: #f8f8ff;
+  border-color: #32066d;
+}
+
+#listaAlunosFaltas label {
+  font-weight: 500;
+  color: #32066d;
+  font-size: 15px;
+  margin: 0;
+  cursor: pointer;
+  flex: 1;
+  text-align: left;
+}
+
+#listaAlunosFaltas input[type="checkbox"] {
+  width: 18px;
+  height: 18px;
+  accent-color: #f8f008;
+  cursor: pointer;
+}
+
+/* ===========================
+   TABELA DE NOTAS
+   =========================== */
+
+#tabelaNotas {
+  display: block !important;
+  overflow-x: auto !important;
+  white-space: nowrap !important;
+  width: 100%;
+  max-width: 100%;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  margin-top: 10px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+#tabelaNotas thead {
+  position: sticky;
+  top: 0;
+  background-color: #32066d;
+  color: #f8f008;
+  z-index: 2;
+}
+
+#tabelaNotas td,
+#tabelaNotas th {
+  text-align: center;
+  padding: 10px;
+  white-space: nowrap !important;
+}
+
+#tabelaNotas td:first-child,
+#tabelaNotas th:first-child {
+  min-width: 280px !important;
+  text-align: left !important;
+  padding-left: 12px !important;
+}
+
+#tabelaNotas tbody tr:nth-child(even) {
+  background-color: #f9f9f9;
+}
+
+#tabelaNotas tbody tr:hover {
+  background-color: #f3f3ff;
+  transition: 0.2s;
+}
+
+#tabelaNotas input[type="number"] {
+  width: 80px;
+  text-align: center;
+  padding: 5px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+}
+
+/* Transição da seção */
+#secaoNotas {
+  transition: opacity 0.3s ease;
+}
+
+/* ===========================
+   CONTEÚDOS — LISTA COM BOTÕES
+   =========================== */
+
+#listaConteudos {
+  list-style: none;
+  padding: 0;
+  margin-top: 10px;
+}
+
+#listaConteudos li {
+  display: flex !important;
+  justify-content: space-between !important;
+  align-items: center !important;
+  gap: 12px !important;
+  padding: 10px !important;
+  background-color: #fff !important;
+  border: 1px solid #ddd !important;
+  border-radius: 8px !important;
+  margin-bottom: 6px;
+}
+
+#listaConteudos li span {
+  flex: 1 !important;
+  word-break: break-word !important;
+  color: #32066d;
+}
+
+#listaConteudos li div {
+  display: flex !important;
+  gap: 10px !important;
+  flex-shrink: 0 !important;
+}
+
+#listaConteudos button {
+  margin: 0 !important;
+  padding: 6px 12px !important;
+  background-color: #f8f008 !important;
+  color: #32066d !important;
+  border: 1px solid #999 !important;
+  border-radius: 6px !important;
+  display: inline-flex !important;
+  cursor: pointer;
+}
+
+#listaConteudos button:hover {
+  background-color: #ffe900 !important;
+}
+
+/* ===========================
+   BOTÃO LOGOUT
+   =========================== */
+
+.btn-logout {
+  display: inline-block;
+  padding: 8px 16px;
+  margin: 14px auto;
+  background-color: #f8f008;
+  color: #32066d;
+  border-radius: 8px;
+  text-decoration: none;
+  cursor: pointer;
+  text-align: center;
+  transition: 0.15s;
+}
+
+.btn-logout:hover {
+  background-color: #f9f630;
+}
+
+/* ===========================
+   RODAPÉ
+   =========================== */
+
+footer {
+  margin-top: 30px;
+  color: #666;
+  text-align: center;
+}
+/* Estilização da área de filtro do PDF */
+.pdf-filter-container {
+    background-color: #f9f9f9;
+    border-left: 5px solid #32066d; /* Roxo principal */
+    padding: 20px;
+    border-radius: 8px;
+    margin: 20px 0;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 15px;
+}
+
+.pdf-filter-container label {
+    font-weight: bold;
+    color: #32066d;
+    margin-bottom: 0; /* Alinha com o select */
+}
+
+/* Estilização do botão Gerar PDF */
+#btnGerarPDF {
+    background-color: #28a745; /* Verde para destacar ação de download */
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: background 0.3s ease;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+#btnGerarPDF:hover {
+    background-color: #218838;
+    transform: scale(1.02);
+}
+
+/* Melhoria na lista de conteúdos lançados */
+.list-card li {
+    background: white;
+    border: 1px solid #ddd;
+    margin-bottom: 10px;
+    padding: 15px;
+    border-radius: 8px;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    transition: box-shadow 0.3s;
+}
+
+.list-card li:hover {
+    box-shadow: 0 2px 8px rgba(50, 6, 109, 0.2);
+}
+
+.texto-conteudo strong {
+    color: #32066d;
+    background: #f8f008;
+    padding: 2px 6px;
+    border-radius: 4px;
+    font-size: 0.85em;
+    margin-right: 8px;
+}
+
+/* Botões de excluir na lista */
+.btn-excluir {
+    background-color: #dc3545;
+    color: white;
+    border: none;
+    padding: 6px 12px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 0.9em;
+}
+
+.btn-excluir:hover {
+    background-color: #c82333;
+}

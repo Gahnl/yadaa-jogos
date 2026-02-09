@@ -1,0 +1,137 @@
+/* --- ESTILO GERAL --- */
+body {
+  font-family: Arial, sans-serif;
+  background: linear-gradient(135deg, #cfcfcf, #f9f9f9);
+  margin: 0;
+  padding: 0;
+  text-align: center;
+}
+
+/* --- CABEÇALHO --- */
+header .header-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+  position: relative;
+  padding: 20px;
+  background: linear-gradient(
+    to right,
+    #ffffff 15%,
+    #32066d 15%,
+    #32066d 85%,
+    #ffffff 85%,
+    #ffffff 100%
+  );
+  color: #f8f008;
+}
+
+header .header-container img {
+  position: absolute;
+  left: 20px;
+  top: 50%;
+  transform: translateY(-50%);
+  height: 85px;
+}
+
+/* Ajustes Mobile */
+@media (max-width: 600px) {
+  header .header-container { padding: 15px; }
+  header .header-container img { height: 55px; left: 10px; }
+}
+
+/* --- CONTAINER DE LOGIN --- */
+.login-container {
+  margin: 50px auto;
+  max-width: 380px;
+  background-color: white;
+  padding: 30px;
+  border-radius: 15px;
+  box-shadow: 0 6px 18px rgba(0,0,0,0.1);
+  text-align: left;
+}
+
+.form-card {
+  display: flex;
+  flex-direction: column;
+}
+
+.form-card label {
+  margin-top: 15px;
+  font-weight: bold;
+  color: #333;
+}
+
+.form-card input {
+  padding: 12px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  margin-top: 6px;
+  box-sizing: border-box;
+  width: 100%;
+}
+
+/* --- MÁGICA DO CAMPO DE SENHA (ÍCONE DENTRO) --- */
+.password-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+  margin-top: 6px;
+}
+
+.password-wrapper input {
+  margin-top: 0 !important; /* Remove margem extra para alinhar com o olho */
+  padding-right: 45px;      /* Espaço para o texto não passar por baixo do olho */
+}
+
+.toggle-eye {
+  position: absolute;
+  right: 15px;
+  cursor: pointer;
+  color: #32066d;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  user-select: none;
+  transition: opacity 0.2s;
+}
+
+.toggle-eye:hover {
+  opacity: 0.7;
+}
+
+/* --- BOTÃO E LINKS --- */
+.form-card button {
+  margin-top: 25px;
+  padding: 14px;
+  background-color: #f8f008;
+  border: none;
+  color: #32066d;
+  font-weight: bold;
+  font-size: 1.1em;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.form-card button:hover {
+  background-color: #f9f630;
+  transform: scale(1.02);
+}
+
+#btnEsqueciSenha {
+  display: block;
+  text-align: center;
+  margin-top: 15px;
+  color: #32066d;
+  text-decoration: underline;
+  font-size: 0.95em;
+}
+
+/* --- RODAPÉ --- */
+footer {
+  margin-top: 30px;
+  color: #666;
+  text-align: center;
+  padding-bottom: 20px;
+}
