@@ -1,54 +1,34 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html lang="pt-br">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Colégio Saber — Login</title>
-  <link rel="stylesheet" href="login.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="reset.css">
+    <link rel="stylesheet" href="header.css">
+    <link rel="stylesheet" href="footer.css">
+    <link rel="stylesheet" href="home.css">
+    <title>CoebaFlix</title>
+
 </head>
 <body>
-  <header>
-    <div class="header-container">
-      <img src="Assets/simbolo saber.png" alt="Logo">
-      <h1>Colégio Saber Igaraçu do Tietê</h1>
-    </div>
-  </header>
+    <header>
+        <div class="container header-wrapper">
+        <a href="index.html"> <img src="assets/logo_yadaa.png" alt=""></a>
+        </div>
+        <nav>
+            <a href="index.html">Pagina Inicial</a>
+            <a href="list.html">Lista de Jogos</a>
+        </nav>
+    </header>
+    <main>
+        <div class="container hero-wrapper">
+        <div class="hero-content">
+            <h2 class="hero-title">Seja bem vindo!!!</h2>
+            <p class="hero-subtitle">Aqui você encontra os melhores jogos e a diversão está garantida.</p>
+            <a class="hero-button" href="list.html">Bora lá</a>
 
-  <main class="login-container">
-    <h2>Login do Sistema</h2>
-    <form id="loginForm" class="form-card">
-      <label for="email">E-mail</label>
-      <input id="email" type="email" placeholder="seu@email.com" required>
-      
-      <label for="senha">Senha</label>
-      <div class="password-wrapper">
-        <input id="senha" type="password" placeholder="senha" required>
-        <span id="togglePassword" class="toggle-eye">
-          <svg id="eyeOpen" xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" viewBox="0 0 16 16">
-            <path d="M10.5 8a2.5 2.5 0 1 1-5 0 2.5 2.5 0 0 1 5 0z"/>
-            <path d="M0 8s3-5.5 8-5.5S16 8 16 8s-3 5.5-8 5.5S0 8 0 8zm8 3.5a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7z"/>
-          </svg>
-          <svg id="eyeClosed" style="display:none;" xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" viewBox="0 0 16 16">
-            <path d="M13.359 11.238C15.06 9.72 16 8 16 8s-3-5.5-8-5.5a7.028 7.028 0 0 0-2.79.588l.77.771A5.944 5.944 0 0 1 8 3.5c2.12 0 3.879 1.168 5.168 2.457A13.134 13.134 0 0 1 14.828 8c-.058.087-.122.183-.195.288-.335.48-.83 1.12-1.465 1.755-.165.165-.337.328-.517.486l.708.709z"/>
-            <path d="M11.297 9.176a3.5 3.5 0 0 0-4.474-4.474l.823.823a2.5 2.5 0 0 1 2.829 2.829l.822.822zm-4.143 4.143l.708-.708A5.961 5.961 0 0 1 8 12.5c-2.12 0-3.879-1.168-5.168-2.457A13.134 13.134 0 0 1 1.172 8c.06-.086.124-.181.196-.288.335-.48.83-1.12 1.465-1.755.165-.165.337-.328.517-.486l-.708-.709C.94 6.28 0 8 0 8s3 5.5 8 5.5a7.029 7.029 0 0 0 2.79-.588l-.77-.771a5.944 5.944 0 0 1-.723.159z"/>
-            <path d="M10.854 7.146l1.093 1.093-9.5 9.5-.708-.708 9.5-9.5z"/>
-          </svg>
-        </span>
-      </div>
-      
-      <button type="submit">Entrar</button>
-      
-      <p style="text-align:center; margin-top:10px;">
-        <a href="#" id="btnEsqueciSenha" style="color:#32066d; text-decoration:underline;">Esqueci minha senha</a>
-      </p>
-    </form>
-    <p id="mensagem" style="color:red; text-align:center; margin-top:10px;"></p>
-  </main>
-
-  <footer>
-    <p>© 2025 - Colégio Saber Igaraçu do Tietê</p>
-  </footer>
-
-  <script type="module" src="js/login.js"></script>
+        </div>
+        </div>
+    </main>
 </body>
 </html>

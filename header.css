@@ -1,15 +1,15 @@
 header {
     width: 100%;
     height: 140px;
-    background-color: #eeb64d;
+    background-color: #076116;
 
 }
+
 .header-wrapper {
     display: flex;
     align-items: center;
     justify-content: space-between;
 }
-
 nav {
     display: flex;
     gap: 32px;

@@ -4,7 +4,7 @@
     box-sizing: border-box;
 }
 
-html, body, button, ul {
+html, body, button {
     font-family: "inter", sans-serif;
     color: #4e4b4b;
 }
@@ -18,10 +18,4 @@ body {
     margin: 0 auto;
     padding: 0 16px;
  
-}
-.text-center {
-text-align: center !important;
-}
-.text-bold {
-    font-weight: 700 !important;
 }

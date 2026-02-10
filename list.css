@@ -3,7 +3,7 @@ main {
 }
 
 .page-title{
-    color:  #070c55;
+    color: #fff;
     font-size: 36px;
 
     text-align: center;
@@ -14,16 +14,15 @@ main {
     display: flex;
     flex-direction: column;
     align-items: flex-start;
-    padding: 32px 0;
 }
 
 .game-title{
 font-size: 24px;
-color:  #070c55;
+color: #fff;
 }
 
 .game-description{
-    color:  #070c55;
+    color: #fff;
     font-size: 20px;
     font-weight: 200;
    
@@ -33,18 +32,13 @@ color:  #070c55;
 }
 
 .game-iframe{
-    width: 70%;
-    height: 650px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    align-self: center;
-
+width: 100%;
+height: 900px;
 }
 .game-button{
     height: 56px;
 
-    background-color: #fc7d07f5;
+    background-color: #ffc019;
     border-radius: 10px;
     font-size: 32px;
     font-weight: 700;

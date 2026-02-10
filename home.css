@@ -16,7 +16,7 @@ main {
     justify-content: flex-start;
 }
 .hero-title {
-font-size: 40px;
+font-size: 56px;
 color: #5a5151;
 }
 .hero-subtitle {
@@ -31,7 +31,7 @@ margin-bottom: 64px;
 .hero-button {
     height: 56px;
 
-    background-color: #fc7d07f5;
+    background-color: #d3d614;
     border-radius: 10px;
     font-size: 32px;
     font-weight: 700;
@@ -42,8 +42,4 @@ margin-bottom: 64px;
     align-items: center;
     justify-content: center;
 
-}
-
-.juntos-contra-fogo {
-    width: 450px;
 }
