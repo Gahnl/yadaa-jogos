@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Painel Administrativo - Colégio Saber</title>
+    <link rel="stylesheet" href="admini.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.25/jspdf.plugin.autotable.min.js"></script>
+</head>
+<body>
+
+<header>
+  <img src="Assets/logo cs.png" alt="Logo Escola" class="logo-left">
+  <div class="header-text">
+    <h1>Colégio Saber de Igaraçu do Tietê</h1>
+  </div>
+  <img src="Assets/CE_-_LOGO-removebg-preview.png" alt="Logo Sistema" class="logo-right">
+</header>
+
+<div class="container">
+    <h2>Cadastrar Professor</h2>
+    <div class="form-card">
+        <input type="text" id="profName" placeholder="Nome do professor">
+        <input type="email" id="profEmail" placeholder="E-mail">
+        
+        <div class="password-wrapper">
+            <input type="password" id="profSenha" placeholder="Senha" class="input-password-ajuste">
+            <span onclick="toggleSenha('profSenha')" class="password-toggle" title="Ver/Esconder senha">👁️</span>
+        </div>
+        
+        <label>Vincular Turmas e Matérias:</label>
+        <div class="atribuicao-container">
+            <label>Selecione as Turmas:</label>
+            <div class="multi-select" id="multiSelectTurmasAtribuicao">
+                <div class="multi-select-field" id="fieldTurmaAtribuicao">Selecionar Turmas</div>
+                <div class="multi-select-list" id="listTurmaAtribuicao">
+                    <label><input type="checkbox" value="1º ano"> 1º ano</label>
+                    <label><input type="checkbox" value="2º ano"> 2º ano</label>
+                    <label><input type="checkbox" value="3º ano"> 3º ano</label>
+                    <label><input type="checkbox" value="4º ano"> 4º ano</label>
+                    <label><input type="checkbox" value="5º ano"> 5º ano</label>
+                    <label><input type="checkbox" value="6º ano"> 6º ano</label>
+                    <label><input type="checkbox" value="7º ano"> 7º ano</label>
+                    <label><input type="checkbox" value="8º ano"> 8º ano</label>
+                    <label><input type="checkbox" value="9º ano A"> 9º ano A</label>
+                    <label><input type="checkbox" value="9º ano B"> 9º ano B</label>
+                </div>
+            </div>
+
+            <label>Selecione as Matérias para as turmas acima:</label>
+            <div class="multi-select" id="multiSelectMateriasAtribuicao">
+                <div class="multi-select-field" id="fieldMatAtribuicao">Selecionar Matérias</div>
+                <div class="multi-select-list" id="listMatAtribuicao">
+                    <label><input type="checkbox" value="Matemática"> Matemática</label>
+                    <label><input type="checkbox" value="Português"> Português</label>
+                    <label><input type="checkbox" value="Ciências"> Ciências</label>
+                    <label><input type="checkbox" value="História"> História</label>
+                    <label><input type="checkbox" value="Geografia"> Geografia</label>
+                    <label><input type="checkbox" value="Inglês"> Inglês</label>
+                    <label><input type="checkbox" value="Artes"> Artes</label>
+                    <label><input type="checkbox" value="Educação Física"> Ed. Física</label>
+                </div>
+            </div>
+            
+            <button type="button" id="btnAddAtribuicao" class="btn-full-roxo">+ Vincular estas turmas e matérias</button>
+        </div>
+
+        <div id="previewAtribuicoes" class="preview-box">
+            <strong>Atribuições Adicionadas:</strong>
+            <ul id="listaAtribuidas" class="lista-estilizada"></ul>
+        </div>
+
+        <button id="btnCreateProf">Finalizar Cadastro do Professor</button>
+    </div>
+
+    <hr>
+
+    <h2>Cadastrar Aluno</h2>
+    <div class="form-card">
+        <input type="text" id="alunoName" placeholder="Nome do aluno">
+        <input type="email" id="alunoEmail" placeholder="E-mail">
+        <div class="password-wrapper">
+            <input type="password" id="alunoSenha" placeholder="Senha" class="input-password-ajuste">
+            <span onclick="toggleSenha('alunoSenha')" class="password-toggle">👁️</span>
+        </div>
+        <label for="alunoSerie">Série:</label>
+        <select id="alunoSerie">
+            <option value="">Selecione a série</option>
+            <option value="1º ano">1º ano</option>
+            <option value="2º ano">2º ano</option>
+            <option value="3º ano">3º ano</option>
+            <option value="4º ano">4º ano</option>
+            <option value="5º ano">5º ano</option>
+            <option value="6º ano">6º ano</option>
+            <option value="7º ano">7º ano</option>
+            <option value="8º ano">8º ano</option>
+            <option value="9º ano A">9º ano A</option>
+            <option value="9º ano B">9º ano B</option>
+        </select>
+        <button id="btnCreateAluno">Cadastrar Aluno</button>
+    </div>
+
+    <hr>
+
+    <h2 class="titulo-gerenciamento">Gerenciamento de Usuários</h2>
+    <div class="toggle-container">
+        <button id="btnToggleProf" class="btn-toggle">📂 Ver Professores</button>
+        <button id="btnToggleAlunos" class="btn-toggle">📂 Ver Alunos</button>
+    </div>
+
+    <div id="containerProfessores" class="form-card" style="display:none;">
+        <div class="flex-header-container">
+            <h3>Lista de Professores</h3>
+            <button id="btnGerarPdfProf" class="btn-pdf-pequeno">📄 Gerar PDF</button>
+        </div>
+        <input type="text" id="buscaProf" placeholder="🔍 Buscar professor...">
+        <div class="table-wrapper">
+            <table>
+                <thead>
+                    <tr><th>Nome</th><th>E-mail</th><th>Atribuições</th><th>Ações</th></tr>
+                </thead>
+                <tbody id="listaProfessores"></tbody>
+            </table>
+        </div>
+    </div>
+
+    <div id="containerAlunos" class="form-card" style="display:none;">
+        <div class="flex-header-container">
+            <h3>Lista de Alunos</h3>
+            <button id="btnGerarPdfAlunos" class="btn-pdf-pequeno">📄 Gerar PDF</button>
+        </div>
+        <input type="text" id="buscaAluno" placeholder="🔍 Buscar aluno...">
+        <div class="table-wrapper">
+            <table>
+                <thead>
+                    <tr><th>Nome</th><th>E-mail</th><th>Série</th><th>Ações</th></tr>
+                </thead>
+                <tbody id="listaAlunosCadastrados"></tbody>
+            </table>
+        </div>
+    </div>
+
+    <hr>
+
+    <h2>Gerar Notas e Boletins</h2>
+    <div class="form-card">
+        <label>Selecione a Turma:</label>
+        <select id="filtroSerie">
+            <option value="">Selecione a série</option>
+            <option value="1º ano">1º ano</option>
+            <option value="2º ano">2º ano</option>
+            <option value="3º ano">3º ano</option>
+            <option value="4º ano">4º ano</option>
+            <option value="5º ano">5º ano</option>
+            <option value="6º ano">6º ano</option>
+            <option value="7º ano">7º ano</option>
+            <option value="8º ano">8º ano</option>
+            <option value="9º ano A">9º ano A</option>
+            <option value="9º ano B">9º ano B</option>
+        </select>
+        
+        <label>Selecione o Aluno (para Boletim):</label>
+        <input type="text" id="filtroAluno" list="listaAlunos" placeholder="Digite o nome do aluno">
+        <datalist id="listaAlunos"></datalist>
+        
+        <div class="flex-gap-10">
+            <button id="btnGerarLista" class="btn-toggle">📂 Lista da Turma</button>
+            <button id="btnVisualizarBoletim">👁️ Ver Boletim</button>
+        </div>
+    </div>
+
+    <div id="containerListaTurma" class="form-card" style="display:none; margin-top:20px;">
+        <div class="flex-header-container">
+            <h3 id="tituloListaTurma">Alunos Matriculados</h3>
+            <button id="btnPdfListaTurma" class="btn-pdf-pequeno">📄 Baixar PDF</button>
+        </div>
+        <div class="table-wrapper">
+            <table>
+                <thead><tr><th>Nome do Aluno</th><th>E-mail</th></tr></thead>
+                <tbody id="corpoListaTurma"></tbody>
+            </table>
+        </div>
+    </div>
+
+    <div id="areaPreview" class="form-card" style="display:none; margin-top:20px; border: 2px solid #32066d;">
+        <h3 id="infoAlunoPreview">Boletim do Aluno</h3>
+        <div class="table-wrapper">
+            <table>
+                <thead>
+                    <tr><th>Matéria</th><th>1ºB</th><th>2ºB</th><th>3ºB</th><th>4ºB</th><th>Média</th><th>Faltas</th></tr>
+                </thead>
+                <tbody id="tabelaCorpoPreview"></tbody>
+            </table>
+        </div>
+        <div style="margin-top:15px; display:flex; gap:10px;">
+            <button id="btnBaixarPDFConfirmado" style="background-color: #28a745;">💾 Baixar PDF</button>
+            <button id="btnFecharPreview" style="background-color: #dc3545;">✖ Fechar</button>
+        </div>
+    </div>
+
+</div> 
+
+<div class="logout-wrapper">
+    <a href="index.html" class="btn-logout-card">🚪 Sair do sistema</a>
+</div>
+
+<footer><p>© 2025 - Colégio Saber Igaraçu do Tietê</p></footer>
+
+<script type="module" src="js/admin.js"></script>
+
+</body>
+</html>

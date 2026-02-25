@@ -10,37 +10,53 @@ body {
 /* --- CABEÇALHO --- */
 header .header-container {
   display: flex;
+  align-items: stretch; 
+  justify-content: space-between;
+  min-height: 140px; /* Altura mínima do topo */
+  background-color: #ffffff; 
+  padding: 0 !important;
+  margin: 0;
+  border-bottom: 4px solid #f8f008;
+}
+
+/* Bloco Roxo Central */
+header .header-container h1 {
+  flex: 1;
+  display: flex;
   align-items: center;
   justify-content: center;
-  gap: 20px;
-  position: relative;
-  padding: 20px;
-  background: linear-gradient(
-    to right,
-    #ffffff 15%,
-    #32066d 15%,
-    #32066d 85%,
-    #ffffff 85%,
-    #ffffff 100%
-  );
+  background-color: #32066d; 
   color: #f8f008;
+  margin: 0;
+  padding: 0 20px;
+  font-size: 1.8rem;
 }
 
+/* --- REGRAS INDIVIDUAIS DOS LOGOS --- */
+
+/* Base para ambos (remove posições fixas) */
 header .header-container img {
-  position: absolute;
-  left: 20px;
-  top: 50%;
-  transform: translateY(-50%);
-  height: 85px;
+  width: auto !important;
+  background-color: #ffffff;
+  position: static !important;
+  transform: none !important;
+  flex-shrink: 0;
+  object-fit: contain;
 }
 
-/* Ajustes Mobile */
-@media (max-width: 600px) {
-  header .header-container { padding: 15px; }
-  header .header-container img { height: 55px; left: 10px; }
+/* 1. LOGO DA ESQUERDA (Escola) - Mantemos o tamanho padrão */
+header .header-container img:first-of-type {
+  height: 100px !important; 
+  padding: 10px 30px;
 }
 
-/* --- CONTAINER DE LOGIN --- */
+/* 2. LOGO DA DIREITA (Sistema/ClassEdu) - Aumentamos aqui! */
+header .header-container img:last-of-type {
+  height: 100px !important; /* Ajuste este valor se quiser ainda maior */
+  padding: 10px 40px;
+}
+
+/* --- RESTANTE DO CSS (Login e Botões) --- */
 .login-container {
   margin: 50px auto;
   max-width: 380px;
@@ -51,56 +67,14 @@ header .header-container img {
   text-align: left;
 }
 
-.form-card {
-  display: flex;
-  flex-direction: column;
-}
+.form-card { display: flex; flex-direction: column; }
+.form-card label { margin-top: 15px; font-weight: bold; color: #333; }
+.form-card input { padding: 12px; border-radius: 8px; border: 1px solid #ccc; margin-top: 6px; width: 100%; box-sizing: border-box; }
 
-.form-card label {
-  margin-top: 15px;
-  font-weight: bold;
-  color: #333;
-}
+.password-wrapper { position: relative; display: flex; align-items: center; margin-top: 6px; }
+.password-wrapper input { padding-right: 45px; }
+.toggle-eye { position: absolute; right: 15px; cursor: pointer; color: #32066d; }
 
-.form-card input {
-  padding: 12px;
-  border-radius: 8px;
-  border: 1px solid #ccc;
-  margin-top: 6px;
-  box-sizing: border-box;
-  width: 100%;
-}
-
-/* --- MÁGICA DO CAMPO DE SENHA (ÍCONE DENTRO) --- */
-.password-wrapper {
-  position: relative;
-  display: flex;
-  align-items: center;
-  margin-top: 6px;
-}
-
-.password-wrapper input {
-  margin-top: 0 !important; /* Remove margem extra para alinhar com o olho */
-  padding-right: 45px;      /* Espaço para o texto não passar por baixo do olho */
-}
-
-.toggle-eye {
-  position: absolute;
-  right: 15px;
-  cursor: pointer;
-  color: #32066d;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  user-select: none;
-  transition: opacity 0.2s;
-}
-
-.toggle-eye:hover {
-  opacity: 0.7;
-}
-
-/* --- BOTÃO E LINKS --- */
 .form-card button {
   margin-top: 25px;
   padding: 14px;
@@ -108,30 +82,114 @@ header .header-container img {
   border: none;
   color: #32066d;
   font-weight: bold;
-  font-size: 1.1em;
   border-radius: 8px;
   cursor: pointer;
   transition: 0.2s;
 }
 
-.form-card button:hover {
-  background-color: #f9f630;
-  transform: scale(1.02);
+.form-card button:hover { background-color: #f9f630; transform: scale(1.02); }
+
+footer { margin-top: 30px; color: #666; }
+
+/* Responsivo */
+@media (max-width: 800px) {
+  header .header-container { flex-direction: column; min-height: auto; }
+  header .header-container img:first-of-type, 
+  header .header-container img:last-of-type { height: 80px !important; padding: 10px; }
+}
+/* --- ESTILO DA SPLASH SCREEN --- */
+#splash-screen {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: #32066d; /* Cor roxa do seu sistema */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999; /* Garante que fique por cima de tudo */
+    transition: opacity 1s ease-out, visibility 1s;
 }
 
-#btnEsqueciSenha {
-  display: block;
-  text-align: center;
-  margin-top: 15px;
-  color: #32066d;
-  text-decoration: underline;
-  font-size: 0.95em;
+.splash-content {
+    text-align: center;
+    color: white;
 }
 
-/* --- RODAPÉ --- */
-footer {
-  margin-top: 30px;
-  color: #666;
-  text-align: center;
-  padding-bottom: 20px;
+.splash-content img {
+    /* No celular, ele ocupa 80% da largura da tela */
+    width: 80vw; 
+    /* No computador, ele não fica exagerado, trava em 450px */
+    max-width: 450px; 
+    height: auto;
+    margin-bottom: 20px;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    animation: pulse 2s infinite;
+}
+
+/* Animação simples de pulsar no logo */
+@keyframes pulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+    100% { transform: scale(1); }
+}
+
+/* Barrinha de carregamento opcional */
+.loader {
+    width: 200px;
+    height: 4px;
+    background: rgba(255, 255, 255, 0.2);
+    margin: 0 auto;
+    position: relative;
+    overflow: hidden;
+}
+.loader::after {
+    content: '';
+    width: 70px;
+    height: 4px;
+    background: #f8f008; /* Amarelo do seu sistema */
+    position: absolute;
+    animation: loading 1.5s infinite;
+}
+@keyframes loading {
+    0% { left: -70px; }
+    100% { left: 200px; }
+}
+
+/* Classe para esconder a splash */
+.hidden-splash {
+    opacity: 0;
+    visibility: hidden;
+}
+/* --- Novas Classes para Limpeza do Login --- */
+
+.link-esqueci-senha {
+    color: #32066d; 
+    text-decoration: underline;
+    font-size: 0.9rem;
+}
+
+.forgot-password-container {
+    text-align: center; 
+    margin-top: 10px;
+}
+
+.error-message {
+    color: red; 
+    text-align: center; 
+    margin-top: 10px;
+    font-size: 0.9rem;
+    min-height: 20px; /* Evita que o layout pule quando a mensagem aparece */
+}
+
+/* Ajuste do SVG do olho para não precisar de style inline */
+.eye-icon {
+    display: block;
+}
+
+.eye-icon.hidden {
+    display: none;
 }

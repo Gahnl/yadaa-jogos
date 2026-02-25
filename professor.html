@@ -9,24 +9,25 @@
 </head>
 <body>
 <header>
-  <div class="header-container">
-    <img src="Assets/simbolo saber.png" alt="Logo">
-    <h1>Colégio Saber Igaraçu do Tietê</h1>
+  <img src="Assets/logo cs.png" alt="Logo Escola" class="logo-left">
+  <div class="header-text">
+    <h1>Colégio Saber de Igaraçu do Tietê</h1>
   </div>
+  <img src="Assets/CE_-_LOGO-removebg-preview.png" alt="Logo Sistema" class="logo-right">
 </header>
 
 <main class="container">
 
-  <h2>Lançar Notas</h2>
-  <div class="form-card">
-    <label for="materiaSelect">Selecione a Matéria:</label>
-    <select id="materiaSelect">
-      <option value="">Carregando matérias...</option>
-    </select>
-
+  <div class="form-card filter-main">
+    <h2>Filtros de Turma</h2>
     <label for="serieSelect">Selecione a Série:</label>
     <select id="serieSelect">
       <option value="">Selecione a série</option>
+    </select>
+
+    <label for="materiaSelect">Selecione a Matéria:</label>
+    <select id="materiaSelect">
+      <option value="">Selecione a série primeiro</option>
     </select>
 
     <label for="bimestreNotas">Selecione o Bimestre:</label>
@@ -37,21 +38,23 @@
       <option value="3">3º Bimestre</option>
       <option value="4">4º Bimestre</option>
     </select>
+  </div>
 
-    <p id="mensagemNotas" style="color:#555; text-align:center; margin-top:15px;">
-      Selecione a matéria, série e bimestre para lançar as notas.
+  <hr>
+
+  <h2>Lançar Notas</h2>
+  <div class="form-card">
+    <p id="mensagemNotas" class="texto-informativo">
+      Selecione a matéria, série e bimestre no topo para lançar as notas.
     </p>
 
     <div id="secaoNotas" style="display:none;">
-      <table id="tabelaNotas" border="1" style="width:100%; margin-top:10px; border-collapse: collapse;">
+      <table id="tabelaNotas" class="tabela-cabecalho-roxo">
         <thead>
-          <tr style="background-color:#32066d; color:#f8f008;">
+          <tr>
             <th>Aluno</th>
-            <th>Nota Multidisciplinar</th>
-            <th>Avaliação Bimestral</th>
-            <th>Trabalho em Sala</th>
-            <th>Média Final</th>
-            <th>Faltas (Bimestre)</th>
+            <th>P1</th> <th>P2</th> <th>Trabs</th> <th>Recup</th> <th>Média</th>
+            <th>Faltas</th>
           </tr>
         </thead>
         <tbody id="corpoTabelaNotas"></tbody>
@@ -62,24 +65,10 @@
 
   <h2>Lançar Faltas</h2>
   <div class="form-card">
-    <label for="serieFaltasSelect">Selecione a Série:</label>
-    <select id="serieFaltasSelect">
-      <option value="">Selecione a série</option>
-    </select>
-
-    <div id="listaAlunosFaltas" style="margin-top:10px;"></div>
+    <div id="listaAlunosFaltas"></div>
 
     <label for="dataFalta">Data da Aula:</label>
     <input type="date" id="dataFalta">
-
-    <label for="selectBimestre">Selecione o Bimestre:</label>
-    <select id="selectBimestre">
-      <option value="">Selecione o bimestre</option>
-      <option value="1">1º Bimestre</option>
-      <option value="2">2º Bimestre</option>
-      <option value="3">3º Bimestre</option>
-      <option value="4">4º Bimestre</option>
-    </select>
 
     <button id="btnSalvarFaltas">Salvar Faltas</button>
   </div>
@@ -92,36 +81,28 @@
     <label for="dataAula">Data da Aula:</label>
     <input type="date" id="dataAula">
 
-    <label for="bimestreConteudo">Selecione o Bimestre:</label>
-    <select id="bimestreConteudo">
-      <option value="">Selecione o bimestre</option>
-      <option value="1">1º Bimestre</option>
-      <option value="2">2º Bimestre</option>
-      <option value="3">3º Bimestre</option>
-      <option value="4">4º Bimestre</option>
-    </select>
-
     <button id="btnSalvarConteudo">Salvar Conteúdo</button>
   </div>
 
-  <h3>Conteúdos Lançados</h3>
+  <div class="titulo-lista-container">
+    <h3>Conteúdos Lançados</h3>
+    <button type="button" id="btnToggleLista" onclick="window.toggleLista()" class="btn-esconder-pequeno">Esconder</button>
+  </div>
 
-<div class="pdf-filter-container">
+  <div class="pdf-filter-container">
     <label for="filtroBimestrePDF">Gerar Relatório:</label>
-    <select id="filtroBimestrePDF" style="max-width: 200px;">
+    <select id="filtroBimestrePDF" class="input-bimestre-pdf">
         <option value="1">1º Bimestre</option>
         <option value="2">2º Bimestre</option>
         <option value="3">3º Bimestre</option>
         <option value="4">4º Bimestre</option>
     </select>
-    <button id="btnGerarPDF">
-        📄 Baixar PDF do Bimestre
-    </button>
-</div>
+    <button id="btnGerarPDF" onclick="window.gerarPDFConteudo()">📄 Baixar PDF do Bimestre</button>
+  </div>
 
-<ul id="listaConteudos" class="list-card"></ul>
+  <ul id="listaConteudos" class="list-card"></ul>
 
-  <div style="text-align:center; margin-top:10px;">
+  <div class="btn-logout-central">
     <a href="index.html" class="btn-logout">Sair do sistema</a>
   </div>
 </main>

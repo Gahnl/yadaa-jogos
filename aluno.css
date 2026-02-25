@@ -1,0 +1,161 @@
+body {
+  font-family: Arial, sans-serif;
+  background: linear-gradient(135deg, #f0f0f0, #ffffff);
+  margin: 0;
+  padding: 0;
+  text-align: center;
+}
+
+/* ================= HEADER TIPO BANNER (PADRONIZADO) ================= */
+header {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  height: 130px; /* Altura idêntica ao admin */
+  padding: 0 20px;
+  background: linear-gradient(
+    to right, 
+    #ffffff 0%, 
+    #ffffff 18%, 
+    #32066d 18%, 
+    #32066d 82%, 
+    #ffffff 82%, 
+    #ffffff 100%
+  );
+  border-bottom: 4px solid #f8f008; /* Linha amarela de acabamento */
+}
+
+/* Configuração dos Logos */
+header img {
+  position: absolute;
+  height: 90px;
+  width: auto;
+  top: 50%;
+  transform: translateY(-50%);
+  object-fit: contain;
+}
+
+.logo-left {
+  left: 30px;
+}
+
+.logo-right {
+  right: 90px;
+}
+
+/* Centralização do Texto */
+.header-text {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  z-index: 5;
+}
+
+header h1 {
+  margin: 0 !important;
+  color: #f8f008;
+  font-size: 28px;
+  font-weight: bold;
+  line-height: 1.1;
+  text-align: center;
+}
+
+/* 📱 Ajustes para celular (Responsividade) */
+@media (max-width: 800px) {
+  header {
+    background: #32066d; /* Remove faixas brancas no celular para ganhar espaço */
+    height: auto;
+    padding: 20px;
+    flex-direction: column;
+    gap: 15px;
+  }
+  header img {
+    position: static;
+    transform: none;
+    height: 60px;
+  }
+  .logo-left, .logo-right {
+    left: auto;
+    right: auto;
+  }
+  header h1 {
+    font-size: 20px;
+  }
+}
+.container {
+  max-width: 900px;
+  margin: 30px auto;
+  background-color: white;
+  padding: 25px 30px;
+  border-radius: 12px;
+  box-shadow: 0 6px 18px rgba(0,0,0,0.08);
+  text-align: left;
+}
+
+h2 {
+  text-align: center;
+  color: #32066d;
+}
+
+.container button {
+  margin-top: 14px;
+  padding: 10px 16px;
+  background-color: #f8f008;
+  border: none;
+  color: #32066d;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: 0.15s;
+}
+
+.container button:hover {
+  background-color: #f9f630;
+}
+
+/* Estilo da tabela */
+.tabela-container {
+  overflow-x: auto;
+  margin-top: 20px;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 10px;
+}
+
+th, td {
+  border: 1px solid #ddd;
+  padding: 10px;
+  text-align: center;
+}
+
+th {
+  background-color: #32066d;
+  color: #f8f008;
+}
+
+td {
+  background-color: #f9f9f9;
+  font-weight: 500;
+}
+
+td.notas {
+  color: #0077b6;
+}
+
+td.faltas {
+  color: #d90404;
+}
+
+tr:hover td {
+  background-color: #f3f3f3;
+}
+
+footer {
+  margin-top: 30px;
+  color: #666;
+  text-align: center;
+}
