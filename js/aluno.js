@@ -4,22 +4,34 @@ import { ref, get, onValue } from "https://www.gstatic.com/firebasejs/10.13.1/fi
 
 const tabelaNotas = document.querySelector("#tabelaNotas tbody");
 
-// ------------------------------------------------------------------
-// 📚 GRADE CURRICULAR FIXA POR SÉRIE
-// Importante: O nome da série aqui deve ser IGUAL ao que está no banco.
-// ------------------------------------------------------------------
 const GRADES_POR_SERIE = {
-    "1º Ano": ["Arte", "Ciências", "Educação Física", "Geografia", "História", "Inglês", "Matemática", "Português"],
-    "2º Ano": ["Arte", "Ciências", "Educação Física", "Geografia", "História", "Inglês", "Matemática", "Português"],
-    "3º Ano": ["Arte", "Ciências", "Educação Física", "Geografia", "História", "Inglês", "Matemática", "Português"],
-    "4º Ano": ["Arte", "Ciências", "Educação Física", "Geografia", "História", "Inglês", "Matemática", "Português"],
-    "5º Ano": ["Arte", "Ciências", "Educação Física", "Geografia", "História", "Inglês", "Matemática", "Português"],
+    "1º Ano": ["Arte", "Ciências", "Educação Física", "Geografia", "História", "Inglês", "Matemática", "Português", "Música"],
+    "2º Ano": ["Arte", "Ciências", "Educação Física", "Geografia", "História", "Inglês", "Matemática", "Português","Música"],
+    "3º Ano": ["Arte", "Ciências", "Educação Física", "Geografia", "História", "Inglês", "Matemática", "Português","Música"],
+    "4º Ano": ["Arte", "Ciências", "Educação Física", "Geografia", "História", "Inglês", "Matemática", "Português","Música"],
+    "5º Ano": ["Arte", "Ciências", "Educação Física", "Geografia", "História", "Inglês", "Matemática", "Português","Música"],
     "6º Ano": ["Arte", "Ciências", "Educação Física", "Espanhol", "Geografia", "História", "Inglês", "Matemática", "Português"],
     "7º Ano": ["Arte", "Ciências", "Educação Física", "Espanhol", "Geografia", "História", "Inglês", "Matemática", "Português"],
     "8º Ano": ["Arte", "Ciências", "Educação Física", "Espanhol", "Geografia", "História", "Inglês", "Matemática", "Português"],
-    "9º Ano": ["Arte", "Ciências", "Educação Física", "Espanhol", "Geografia", "História", "Inglês", "Matemática", "Português", "Música"],
-    "Ensino Médio": ["Arte", "Biologia", "Educação Física", "Espanhol", "Física", "Geografia", "História", "Inglês", "Matemática", "Português", "Química", "Sociologia", "Filosofia"]
+    "9º Ano A": ["Arte", "Ciências", "Educação Física", "Espanhol", "Geografia", "História", "Inglês", "Matemática", "Português"],
+    "9º Ano B": ["Arte", "Ciências", "Educação Física", "Espanhol", "Geografia", "História", "Inglês", "Matemática", "Português"]
 };
+
+// 1. FUNÇÃO DE ARREDONDAMENTO POR QUARTIS (REGRA: 0.25 BAIXO / 0.76 CIMA)
+function arredondarEscola(nota) {
+    if (isNaN(nota) || nota === null) return 0;
+    
+    const inteiro = Math.floor(nota);
+    const decimal = parseFloat((nota - inteiro).toFixed(2)); 
+
+    if (decimal <= 0.25) {
+        return inteiro; // Ex: 6.25 -> 6.0
+    } else if (decimal >= 0.26 && decimal <= 0.75) {
+        return inteiro + 0.5; // Ex: 6.26 -> 6.5 | 6.75 -> 6.5
+    } else {
+        return inteiro + 1; // Ex: 6.76 -> 7.0
+    }
+}
 
 onAuthStateChanged(auth, async (user) => {
     if (!user) {
@@ -28,7 +40,6 @@ onAuthStateChanged(auth, async (user) => {
     }
 
     try {
-        // 1. Busca os dados fixos do aluno (Série)
         const snapUser = await get(ref(db, `users/${user.uid}`));
         const dadosAluno = snapUser.val();
 
@@ -38,23 +49,17 @@ onAuthStateChanged(auth, async (user) => {
         }
 
         const serieDoAluno = dadosAluno.serie;
-        // Pega a lista de matérias da grade ou, se não existir, usa as que já têm nota
-        let listaMateriasBase = GRADES_POR_SERIE[serieDoAluno];
-
-        // 2. ESCUTA AS NOTAS EM TEMPO REAL
-        // Sempre que qualquer professor mudar algo em 'grades/UID_DO_ALUNO', este bloco executa sozinho
+        
         onValue(ref(db, `grades/${user.uid}`), (snapshot) => {
             const grades = snapshot.val() || {};
-            
-            // Se a série não foi encontrada no mapa acima, ele mostra o que tiver de nota
-            const materiasParaExibir = listaMateriasBase || Object.keys(grades);
-            
-            renderTabela(materiasParaExibir.sort(), grades);
+            const materiasParaExibir = new Set(GRADES_POR_SERIE[serieDoAluno] || []);
+            Object.keys(grades).forEach(mat => materiasParaExibir.add(mat));
+
+            renderTabela(Array.from(materiasParaExibir).sort((a, b) => a.localeCompare(b, 'pt-BR')), grades);
         });
 
     } catch (e) {
         console.error("Erro ao carregar boletim:", e);
-        tabelaNotas.innerHTML = `<tr><td colspan="6">Erro ao carregar dados.</td></tr>`;
     }
 });
 
@@ -63,41 +68,59 @@ function renderTabela(materias, grades) {
 
     materias.forEach(materia => {
         const dadosMateria = grades[materia] || {};
+        let somaNotasFinais = 0, qtdBimestresFechados = 0, somaFaltas = 0;
 
-        // Organiza os 4 bimestres
-        const bimestres = {
-            1: { nota: dadosMateria["1"]?.media ?? "-", falta: dadosMateria["1"]?.faltas ?? 0 },
-            2: { nota: dadosMateria["2"]?.media ?? "-", falta: dadosMateria["2"]?.faltas ?? 0 },
-            3: { nota: dadosMateria["3"]?.media ?? "-", falta: dadosMateria["3"]?.faltas ?? 0 },
-            4: { nota: dadosMateria["4"]?.media ?? "-", falta: dadosMateria["4"]?.faltas ?? 0 }
-        };
+        const bimestres = [1, 2, 3, 4].map(n => {
+            const b = dadosMateria[n] || {};
+            let notaExibicao = "-";
 
-        let somaNotas = 0, qtdComNota = 0, somaFaltas = 0;
+            const p1 = b.p1;
+            const p2 = b.p2;
+            const tr = b.trabalhos;
+            const rec = b.recuperacao;
 
-        [1, 2, 3, 4].forEach(n => {
-            const nota = bimestres[n].nota;
-            if (nota !== "-") {
-                somaNotas += Number(nota);
-                qtdComNota++;
+            const temTodasAsNotas = (p1 !== undefined && p1 !== "") && 
+                                   (p2 !== undefined && p2 !== "") && 
+                                   (tr !== undefined && tr !== "");
+
+            if (temTodasAsNotas || (rec !== undefined && rec !== "")) {
+                const valorMedia = Number(b.media || 0);
+                // A nota já vem arredondada do banco, apenas formatamos a vírgula
+                notaExibicao = valorMedia.toString().replace(".", ",");
+                
+                somaNotasFinais += valorMedia;
+                qtdBimestresFechados++;
             }
-            somaFaltas += Number(bimestres[n].falta);
+
+            const faltasBim = Number(b.faltas ?? 0);
+            somaFaltas += faltasBim;
+
+            return { nota: notaExibicao, falta: faltasBim };
         });
 
-        const mediaFinal = qtdComNota > 0 ? (somaNotas / qtdComNota).toFixed(1) : "-";
+        // Média Final com a nova regra de arredondamento
+        const mediaCalculada = qtdBimestresFechados > 0 ? (somaNotasFinais / qtdBimestresFechados) : null;
+        const mediaFinalAno = mediaCalculada !== null ? arredondarEscola(mediaCalculada) : "-";
 
         const tr = document.createElement("tr");
         tr.innerHTML = `
             <td><strong>${materia}</strong></td>
-            ${[1, 2, 3, 4].map(n => `
+            ${bimestres.map(b => {
+                const notaNum = b.nota !== "-" ? parseFloat(b.nota.replace(",", ".")) : null;
+                const corNota = (notaNum !== null && notaNum < 6) ? "red" : "inherit";
+                return `
                 <td style="text-align: center;">
-                    <span style="font-weight: bold; color: ${bimestres[n].nota < 6 && bimestres[n].nota !== '-' ? 'red' : 'inherit'}">
-                        ${bimestres[n].nota}
+                    <span style="font-weight: bold; color: ${corNota}">
+                        ${b.nota}
                     </span><br>
-                    <small style="color: #666;">Faltas: ${bimestres[n].falta}</small>
+                    <small style="color: #666;">Faltas: ${b.falta}</small>
                 </td>
-            `).join("")}
+                `;
+            }).join("")}
             <td style="text-align: center;">
-                <strong>${mediaFinal}</strong><br>
+                <strong style="color: ${mediaFinalAno !== "-" && mediaFinalAno < 6 ? 'red' : '#32066d'}">
+                    ${mediaFinalAno.toString().replace(".", ",")}
+                </strong><br>
                 <small>Total Faltas: ${somaFaltas}</small>
             </td>
         `;
@@ -105,7 +128,6 @@ function renderTabela(materias, grades) {
     });
 }
 
-// Logout
 document.getElementById("sairBtn")?.addEventListener("click", async () => {
     if(confirm("Deseja realmente sair?")) {
         await signOut(auth);

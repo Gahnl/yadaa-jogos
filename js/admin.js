@@ -3,6 +3,7 @@ import { ref, set, get, remove, onValue, update } from "https://www.gstatic.com/
 import { onAuthStateChanged, getAuth, createUserWithEmailAndPassword, signOut } from "https://www.gstatic.com/firebasejs/10.13.1/firebase-auth.js";
 import { initializeApp, deleteApp } from "https://www.gstatic.com/firebasejs/10.13.1/firebase-app.js";
 
+
 // Variáveis globais de controle
 let atribuicoesProfessor = {};
 let editandoProfessorUid = null;
@@ -391,7 +392,7 @@ document.getElementById("btnGerarLista")?.addEventListener("click", async () => 
 });
 
 // ------------------------------------------------------------------
-// 📊 VISUALIZAÇÃO DO BOLETIM (AJUSTADO: APENAS MATÉRIAS DA TURMA DO ALUNO)
+// 📊 VISUALIZAÇÃO DO BOLETIM (ADM - CORRIGIDO: CARREGA TODAS AS NOTAS)
 // ------------------------------------------------------------------
 let dadosGlobaisBoletim = [];
 let alunoSelecionadoNome = "";
@@ -412,52 +413,94 @@ document.getElementById("btnVisualizarBoletim")?.addEventListener("click", async
         const serieDoAluno = users[alunoUID].serie; 
         if (!serieDoAluno) return alert("Este aluno não possui uma série cadastrada no perfil.");
 
-        // 2. Filtra matérias: pega apenas as que os professores dão para a série do aluno
-        const materiasDaTurma = new Set();
+        // 2. Busca notas do aluno PRIMEIRO para garantir que matérias com nota apareçam
+        const gradesSnap = await get(ref(db, `grades/${alunoUID}`));
+        const notas = gradesSnap.val() || {};
+
+        // 3. Filtra matérias: Atribuições + Matérias que já possuem nota no banco
+        const materiasParaExibir = new Set();
+        
+        // Adiciona matérias das atribuições dos professores para essa série
         Object.values(users).forEach(u => {
             if (u.role === "teacher" && u.atribuicoes && u.atribuicoes[serieDoAluno]) {
-                u.atribuicoes[serieDoAluno].forEach(m => materiasDaTurma.add(m));
+                u.atribuicoes[serieDoAluno].forEach(m => materiasParaExibir.add(m));
             }
         });
 
-        const listaFinalMaterias = Array.from(materiasDaTurma).sort((a, b) => a.localeCompare(b, 'pt-BR'));
+        // Adiciona matérias que já possuem notas gravadas (evita que notas sumam)
+        Object.keys(notas).forEach(mat => materiasParaExibir.add(mat));
+
+        const listaFinalMaterias = Array.from(materiasParaExibir).sort((a, b) => a.localeCompare(b, 'pt-BR'));
 
         if (listaFinalMaterias.length === 0) {
-            return alert("Nenhuma matéria cadastrada para a turma " + serieDoAluno);
+            return alert("Nenhuma matéria ou nota encontrada para " + serieDoAluno);
         }
 
-        // 3. Busca notas do aluno
-        const gradesSnap = await get(ref(db, `grades/${alunoUID}`));
-        const notas = gradesSnap.val() || {};
-        
         corpo.innerHTML = "";
         dadosGlobaisBoletim = [];
         alunoSelecionadoNome = nome;
         document.getElementById("infoAlunoPreview").innerText = `${nome} - ${serieDoAluno}`;
 
-        // 4. Gera a tabela baseada na grade da turma
+        // 4. Gera a tabela com arredondamento e cores
         listaFinalMaterias.forEach(mat => {
             let somaMedias = 0, totalFaltas = 0, bimsComNota = 0;
             let nBims = [];
-            for(let b=1; b<=4; b++) {
-                const dado = notas[mat] ? notas[mat][b] : null;
-                const nota = (dado && dado.media !== "") ? dado.media : "-";
-                nBims.push(nota);
-                if(dado && dado.media !== "" && dado.media !== undefined) { 
-                    somaMedias += parseFloat(dado.media); 
-                    totalFaltas += parseInt(dado.faltas || 0); 
+            let estilosBims = [];
+
+            for (let b = 1; b <= 4; b++) {
+                const dado = (notas[mat] && notas[mat][b]) ? notas[mat][b] : null;
+
+                // AJUSTE: Transformamos em número e arredondamos para a exibição individual
+                const notaBruta = (dado && dado.media !== undefined && dado.media !== null && dado.media !== "") 
+                                  ? parseFloat(dado.media) : ""; 
+                const notaLimpa = notaBruta !== "" ? Math.round(notaBruta) : "";
+
+                const faltaValor = (dado && dado.faltas) ? parseInt(dado.faltas) : 0;
+
+                nBims.push(notaLimpa);
+                
+                // Cor vermelha para nota do bimestre < 6
+                const corBim = (notaLimpa !== "" && notaLimpa < 6) ? "color: red;" : "";
+                estilosBims.push(corBim);
+
+                if (notaBruta !== "") { 
+                    somaMedias += notaBruta; 
                     bimsComNota++; 
                 }
+                totalFaltas += faltaValor;
             }
-            const mediaFinal = bimsComNota > 0 ? (somaMedias / bimsComNota).toFixed(1) : "-";
+
+            // --- ARREDONDAMENTO E COR DA MÉDIA FINAL ---
+            const mediaBase = bimsComNota > 0 ? (somaMedias / bimsComNota) : null;
+            const mediaFinalArredondada = mediaBase !== null ? Math.round(mediaBase) : "";
+            const corMediaFinal = (mediaFinalArredondada !== "" && mediaFinalArredondada < 6) ? "color: red;" : "";
+            
+            const faltasExibir = totalFaltas > 0 ? totalFaltas : "";
+
             const tr = document.createElement("tr");
-            tr.innerHTML = `<td>${mat}</td><td>${nBims[0]}</td><td>${nBims[1]}</td><td>${nBims[2]}</td><td>${nBims[3]}</td><td>${mediaFinal}</td><td>${totalFaltas}</td>`;
+            tr.innerHTML = `
+                <td><strong>${mat}</strong></td>
+                <td style="${estilosBims[0]}">${nBims[0]}</td>
+                <td style="${estilosBims[1]}">${nBims[1]}</td>
+                <td style="${estilosBims[2]}">${nBims[2]}</td>
+                <td style="${estilosBims[3]}">${nBims[3]}</td>
+                <td style="font-weight: bold; ${corMediaFinal}">${mediaFinalArredondada}</td>
+                <td>${faltasExibir}</td>
+            `;
             corpo.appendChild(tr);
-            dadosGlobaisBoletim.push([mat, nBims[0], nBims[1], nBims[2], nBims[3], mediaFinal, totalFaltas]);
+
+            // Salva os dados para o PDF
+            dadosGlobaisBoletim.push([mat, nBims[0], nBims[1], nBims[2], nBims[3], mediaFinalArredondada, faltasExibir]);
         });
+
         document.getElementById("areaPreview").style.display = "block";
-    } catch (e) { alert("Erro ao carregar boletim."); }
+    } catch (e) { 
+        console.error("Erro no boletim:", e);
+        alert("Erro ao carregar boletim."); 
+    }
 });
+
+// --- PDF E DATALIST PERMANECEM IGUAIS ---
 
 document.getElementById("btnBaixarPDFConfirmado")?.addEventListener("click", () => {
     const { jsPDF } = window.jspdf;
