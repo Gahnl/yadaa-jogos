@@ -1,81 +1,154 @@
 /* --- ESTILO GERAL --- */
 body {
   font-family: Arial, sans-serif;
-  background: linear-gradient(135deg, #cfcfcf, #f9f9f9);
   margin: 0;
   padding: 0;
-  text-align: center;
+
+  /* 🖼️ Imagem de fundo configurada */
+  background-image: url('Assets/ChatGPT\ Image\ 8_06_2026\,\ 09_34_36.png'); 
+  
+  /* Configurações para a imagem não distorcer e cobrir a tela toda */
+  background-size: cover;       
+  background-position: center;  
+  background-repeat: no-repeat; 
+  background-attachment: fixed; 
 }
 
-/* --- CABEÇALHO --- */
+/* --- CABEÇALHO (TRANSPARÊNCIA FORÇADA) --- */
 header .header-container {
   display: flex;
   align-items: stretch; 
   justify-content: space-between;
-  min-height: 140px; /* Altura mínima do topo */
-  background-color: #ffffff; 
+  min-height: 140px; 
+  
+  /* ⚪ Forçando 45% de transparência nas pontas brancas */
+  background-color: rgba(255, 255, 255, 0.45) !important; 
+  
   padding: 0 !important;
   margin: 0;
   border-bottom: 4px solid #f8f008;
+  
+  /* 🕶️ Efeito de vidro fosco */
+  backdrop-filter: blur(8px) !important;
+  -webkit-backdrop-filter: blur(8px) !important;
 }
 
 /* Bloco Roxo Central */
 header .header-container h1 {
-  flex: 1;
+  flex: none; 
+  width: 60%; 
   display: flex;
   align-items: center;
   justify-content: center;
-  background-color: #32066d; 
-  color: #f8f008;
+  
+  /* 🟣 Forçando 45% de transparência no bloco roxo */
+  background-color: rgba(50, 6, 109, 0.45) !important; 
+  
+  /* Nome maior e na cor branca */
+  color: #ffffff !important;
+  font-size: 2.3rem;
+  font-weight: bold;
+  
   margin: 0;
   padding: 0 20px;
-  font-size: 1.8rem;
+  box-sizing: border-box;
+  text-align: center;
 }
 
-/* --- REGRAS INDIVIDUAIS DOS LOGOS --- */
-
-/* Base para ambos (remove posições fixas) */
+/* --- REGRAS DOS LOGOS --- */
 header .header-container img {
-  width: auto !important;
-  background-color: #ffffff;
+  width: 20% !important; 
+  max-width: 20% !important;
+  min-width: 20% !important;
+  height: 140px !important; 
+  
+  /* Remove qualquer fundo das tags de imagem */
+  background: transparent !important;
+  background-color: transparent !important;
+  
   position: static !important;
   transform: none !important;
   flex-shrink: 0;
-  object-fit: contain;
+  object-fit: contain; 
+  padding: 15px !important; 
+  box-sizing: border-box; 
 }
 
-/* 1. LOGO DA ESQUERDA (Escola) - Mantemos o tamanho padrão */
-header .header-container img:first-of-type {
-  height: 100px !important; 
-  padding: 10px 30px;
+/* Oculta o logo da direita mantendo o espaço */
+header .header-container img.invisivel {
+  opacity: 0 !important;
+  pointer-events: none;
 }
 
-/* 2. LOGO DA DIREITA (Sistema/ClassEdu) - Aumentamos aqui! */
-header .header-container img:last-of-type {
-  height: 100px !important; /* Ajuste este valor se quiser ainda maior */
-  padding: 10px 40px;
+/* --- CARTÃO DE LOGIN (TRANSPARÊNCIA FORÇADA) --- */
+.container {
+  max-width: 900px;
+  margin: 40px auto;
+  padding: 0 20px;
+  display: flex;
+  justify-content: center; 
 }
 
-/* --- RESTANTE DO CSS (Login e Botões) --- */
-.login-container {
-  margin: 50px auto;
-  max-width: 380px;
-  background-color: white;
-  padding: 30px;
+.card {
+  /* ⚪ Quadro de login: Forçado para 45% de opacidade */
+  background-color: rgba(255, 255, 255, 0.5) !important;
+  
   border-radius: 15px;
-  box-shadow: 0 6px 18px rgba(0,0,0,0.1);
-  text-align: left;
+  box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.15);
+  padding: 35px;
+  width: 100%;
+  max-width: 400px; 
+  
+  /* ✨ Efeito de vidro fosco no card */
+  backdrop-filter: blur(10px) !important;
+  -webkit-backdrop-filter: blur(10px) !important;
 }
 
+/* Bloco do Título e Logo Interno */
+.login-header-block {
+  display: flex;
+  justify-content: space-between; 
+  align-items: center;            
+  margin-bottom: 25px;            
+}
+
+.login-header-block h2 {
+  text-align: left;
+  color: #32066d;
+  margin: 0;
+  font-size: 24px;
+}
+
+.card-logo {
+  height: 55px;
+  width: auto;
+  object-fit: contain;
+  background: transparent !important;
+}
+
+/* --- FORMULÁRIO --- */
 .form-card { display: flex; flex-direction: column; }
 .form-card label { margin-top: 15px; font-weight: bold; color: #333; }
-.form-card input { padding: 12px; border-radius: 8px; border: 1px solid #ccc; margin-top: 6px; width: 100%; box-sizing: border-box; }
 
+/* Inputs de texto */
+.form-card input { 
+  padding: 12px; 
+  border-radius: 8px; 
+  border: 1px solid rgba(0, 0, 0, 0.15); 
+  margin-top: 6px; 
+  width: 100%; 
+  box-sizing: border-box; 
+  background-color: rgba(255, 255, 255, 0.85); 
+  color: #333;
+}
+
+/* Wrapper da Senha com Olho */
 .password-wrapper { position: relative; display: flex; align-items: center; margin-top: 6px; }
 .password-wrapper input { padding-right: 45px; }
 .toggle-eye { position: absolute; right: 15px; cursor: pointer; color: #32066d; }
 
-.form-card button {
+/* Botão Entrar */
+.form-card button.btn-acessar {
   margin-top: 25px;
   padding: 14px;
   background-color: #f8f008;
@@ -86,41 +159,67 @@ header .header-container img:last-of-type {
   cursor: pointer;
   transition: 0.2s;
 }
+.form-card button.btn-acessar:hover { background-color: #f9f630; transform: scale(1.02); }
 
-.form-card button:hover { background-color: #f9f630; transform: scale(1.02); }
-
-footer { margin-top: 30px; color: #666; }
-
-/* Responsivo */
-@media (max-width: 800px) {
-  header .header-container { flex-direction: column; min-height: auto; }
-  header .header-container img:first-of-type, 
-  header .header-container img:last-of-type { height: 80px !important; padding: 10px; }
+/* Link Esqueci Senha */
+.link-esqueci-senha {
+  color: #32066d; 
+  text-decoration: underline;
+  font-size: 0.9rem;
 }
-/* --- ESTILO DA SPLASH SCREEN --- */
+.forgot-password-container {
+  text-align: center; 
+  margin-top: 15px;
+}
+
+/* Mensagens de Erro */
+.error-message {
+  color: red; 
+  text-align: center; 
+  margin-top: 10px;
+  font-size: 0.9rem;
+  min-height: 20px; 
+}
+
+/* Elementos do SVG do Olho */
+.eye-icon { display: block; }
+.eye-icon.hidden { display: none; }
+
+/* --- RODAPÉ --- */
+footer { 
+  margin-top: 40px; 
+  color: #fff; 
+  text-align: center;
+  font-size: 14px;
+}
+
+
+/* --- ESTILO DA SPLASH SCREEN (ATUALIZADO COM IMAGEM DE FUNDO) --- */
 #splash-screen {
     position: fixed;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    background-color: #534f58; /* Cor roxa do seu sistema */
+    
+    /* 🖼️ Nova imagem de fundo adicionada aqui: */
+    background-image: url('Assets/Gemini_Generated_Image_xx7w97xx7w97xx7w.png'); 
+    
+    /* Configurações para a imagem cobrir a tela inteira sem distorcer */
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    
     display: flex;
     justify-content: center;
     align-items: center;
-    z-index: 9999; /* Garante que fique por cima de tudo */
+    z-index: 9999; 
     transition: opacity 1s ease-out, visibility 1s;
 }
 
-.splash-content {
-    text-align: center;
-    color: white;
-}
-
+.splash-content { text-align: center; color: white; }
 .splash-content img {
-    /* No celular, ele ocupa 80% da largura da tela */
     width: 80vw; 
-    /* No computador, ele não fica exagerado, trava em 450px */
     max-width: 450px; 
     height: auto;
     margin-bottom: 20px;
@@ -130,14 +229,12 @@ footer { margin-top: 30px; color: #666; }
     animation: pulse 2s infinite;
 }
 
-/* Animação simples de pulsar no logo */
 @keyframes pulse {
     0% { transform: scale(1); }
     50% { transform: scale(1.05); }
     100% { transform: scale(1); }
 }
 
-/* Barrinha de carregamento opcional */
 .loader {
     width: 200px;
     height: 4px;
@@ -150,7 +247,7 @@ footer { margin-top: 30px; color: #666; }
     content: '';
     width: 70px;
     height: 4px;
-    background: #cd0707; /* Amarelo do seu sistema */
+    background: #cd0707; 
     position: absolute;
     animation: loading 1.5s infinite;
 }
@@ -159,37 +256,36 @@ footer { margin-top: 30px; color: #666; }
     100% { left: 200px; }
 }
 
-/* Classe para esconder a splash */
-.hidden-splash {
-    opacity: 0;
-    visibility: hidden;
-}
-/* --- Novas Classes para Limpeza do Login --- */
+.hidden-splash { opacity: 0; visibility: hidden; }
 
-.link-esqueci-senha {
-    color: #32066d; 
-    text-decoration: underline;
-    font-size: 0.9rem;
-}
+/* --- RESPONSIVIDADE (TRANSPARÊNCIA MANTIDA NO CELULAR) --- */
+@media (max-width: 800px) {
+  header .header-container { flex-direction: column; min-height: auto; }
+  
+  header .header-container img {
+    width: 100% !important;
+    max-width: 100% !important;
+    min-width: unset !important;
+    height: 80px !important; 
+    padding: 10px !important; 
+    background-color: rgba(255, 255, 255, 0.45) !important; 
+  }
+  
+  header .header-container h1 {
+    width: 100%;
+    padding: 15px 20px;
+    background-color: rgba(50, 6, 109, 0.45) !important; 
+    font-size: 1.8rem; 
+  }
 
-.forgot-password-container {
-    text-align: center; 
-    margin-top: 10px;
-}
-
-.error-message {
-    color: red; 
-    text-align: center; 
-    margin-top: 10px;
-    font-size: 0.9rem;
-    min-height: 20px; /* Evita que o layout pule quando a mensagem aparece */
-}
-
-/* Ajuste do SVG do olho para não precisar de style inline */
-.eye-icon {
-    display: block;
-}
-
-.eye-icon.hidden {
-    display: none;
+  header .header-container img.invisivel {
+    display: none; 
+  }
+  
+  .login-header-block {
+    flex-direction: row; 
+  }
+  .card-logo {
+    height: 45px; 
+  }
 }

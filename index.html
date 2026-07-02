@@ -20,13 +20,20 @@
   <div class="header-container">
     <img src="Assets/logo cs.png" alt="Logo Escola">
     <h1>Colégio Saber de Igaraçu do Tietê</h1>
-    <img src="Assets/ClassEdu_logo_hd-removebg-preview - Copia.png" alt="Logo Sistema">
+    <img src="Assets/ClassEdu_logo_hd-removebg-preview - Copia.png" alt="Logo Sistema" class="invisivel">
   </div>
 </header>
 
-<main class="login-container">
-    <h2>Login do Sistema</h2>
+<main class="container login-container">
+  <div class="card">
+    
+    <div class="login-header-block">
+      <h2>Login do Sistema</h2>
+      <img src="Assets/ClassEdu_logo_hd-removebg-preview - Copia.png" alt="Logo Sistema" class="card-logo">
+    </div>
+    
     <form id="loginForm" class="form-card">
+      
       <label for="email">E-mail</label>
       <input id="email" type="email" placeholder="seu@email.com" required>
       
@@ -46,17 +53,18 @@
         </span>
       </div>
       
-      <button type="submit">Entrar</button>
+      <button type="submit" class="btn-acessar" style="width: 100%; margin-top: 15px;">Entrar</button>
       
       <div class="forgot-password-container">
         <a href="#" id="btnEsqueciSenha" class="link-esqueci-senha">Esqueci minha senha</a>
       </div>
     </form>
     <p id="mensagem" class="error-message"></p>
+  </div>
 </main>
 
 <footer>
-  <p>© 2025 - Colégio Saber Igaraçu do Tietê</p>
+  <p>© 2026 - Colégio Saber Igaraçu do Tietê</p>
 </footer>
 
 <script type="module" src="js/login.js"></script>

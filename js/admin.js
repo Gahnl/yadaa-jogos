@@ -60,7 +60,7 @@ function setupToggles() {
 setupToggles();
 
 // ------------------------------------------------------------------
-// 📋 LISTAR USUÁRIOS
+// 📋 LISTAR USUÁRIOS (COM EDIÇÃO DE ALUNO E SENHA)
 // ------------------------------------------------------------------
 function carregarListasUsuarios() {
     const listaProf = document.getElementById("listaProfessores");
@@ -85,7 +85,7 @@ function carregarListasUsuarios() {
             ...usuariosObj[uid]
         })).sort((a, b) => (a.name || "").localeCompare(b.name || "", 'pt-BR'));
 
-        listaProf.innerHTML = ""; // Linha onde o erro acontecia
+        listaProf.innerHTML = ""; 
         listaAlu.innerHTML = "";
 
         usuariosOrdenados.forEach((user) => {
@@ -113,7 +113,11 @@ function carregarListasUsuarios() {
                     <td>${user.name}</td>
                     <td>${user.email}</td>
                     <td>${user.serie || "-"}</td>
-                    <td><button onclick="removerUser('${uid}')" class="btn-delete">Excluir</button></td>`;
+                    <td>
+                        <button onclick="editarNomeAluno('${uid}', '${user.name}')" style="background-color: #4CAF50; color: white; border:none; padding:5px 10px; cursor:pointer; margin-right:5px; border-radius:4px; font-weight:bold;">Nome</button>
+                        <button onclick="resetarSenhaFicticia('${uid}')" style="background-color: #2196F3; color: white; border:none; padding:5px 10px; cursor:pointer; margin-right:5px; border-radius:4px; font-weight:bold;">Senha</button>
+                        <button onclick="removerUser('${uid}')" class="btn-delete">Excluir</button>
+                    </td>`;
                 listaAlu.appendChild(tr);
             }
         });
@@ -121,6 +125,37 @@ function carregarListasUsuarios() {
         console.error("Erro de permissão ou leitura:", error);
     });
 }
+
+// 📝 FUNÇÃO PARA EDITAR NOME DO ALUNO (Direto no Banco de Dados)
+window.editarNomeAluno = function(uid, nomeAtual) {
+    const novoNome = prompt("Digite o nome correto do aluno:", nomeAtual);
+    
+    if (novoNome && novoNome.trim() !== "") {
+        const userRef = ref(db, `users/${uid}`);
+        update(userRef, { name: novoNome.trim() })
+            .then(() => alert("Nome atualizado com sucesso!"))
+            .catch((error) => alert("Erro ao atualizar: " + error.message));
+    }
+};
+
+// 🔑 FUNÇÃO PARA RESETAR SENHA (PARA E-MAILS FICTÍCIOS)
+window.resetarSenhaFicticia = function(uid) {
+    const novaSenha = prompt("Digite a nova senha para este aluno (mínimo 6 caracteres):");
+    
+    if (novaSenha && novaSenha.length >= 6) {
+        const userRef = ref(db, `users/${uid}`);
+        // Grava no banco para controle do ADM. 
+        // Nota: O Firebase Auth não muda automaticamente, mas você terá o registro do que definiu.
+        update(userRef, { 
+            senhaProvisoria: novaSenha,
+            precisaTrocarSenha: true 
+        })
+        .then(() => alert("Comando de senha enviado para o banco de dados!"))
+        .catch((error) => alert("Erro ao registrar nova senha: " + error.message));
+    } else if (novaSenha) {
+        alert("A senha precisa ter pelo menos 6 caracteres!");
+    }
+};
 
 // ------------------------------------------------------------------
 // 📄 FUNÇÕES DE GERAÇÃO DE PDF (LUCKY SYSTEM)
@@ -392,89 +427,127 @@ document.getElementById("btnGerarLista")?.addEventListener("click", async () => 
 });
 
 // ------------------------------------------------------------------
-// 📊 VISUALIZAÇÃO DO BOLETIM (ADM - CORRIGIDO: CARREGA TODAS AS NOTAS)
+// 📊 VISUALIZAÇÃO DO BOLETIM (ADM - PADRÃO FINAL)
 // ------------------------------------------------------------------
+
 let dadosGlobaisBoletim = [];
 let alunoSelecionadoNome = "";
+let serieSelecionada = "";
+
+// 🔥 ARREDONDAMENTO IGUAL AO PROFESSOR
+function arredondarEscola(nota) {
+    if (isNaN(nota) || nota === null) return 0;
+
+    const inteiro = Math.floor(nota);
+    const decimal = parseFloat((nota - inteiro).toFixed(2)); 
+
+    if (decimal <= 0.25) {
+        return inteiro;
+    } else if (decimal <= 0.75) {
+        return inteiro + 0.5;
+    } else {
+        return inteiro + 1;
+    }
+}
+
+// 🔥 NORMALIZAÇÃO (aceita 6,4 ou 6.4)
+function normalizarNota(valor) {
+    if (valor === undefined || valor === null || valor === "") return null;
+    return parseFloat(String(valor).replace(",", "."));
+}
 
 document.getElementById("btnVisualizarBoletim")?.addEventListener("click", async () => {
     const nome = document.getElementById("filtroAluno").value.trim();
     const corpo = document.getElementById("tabelaCorpoPreview");
+
     if (!nome) return alert("Selecione um Aluno!");
 
     try {
         const usersSnap = await get(ref(db, "users"));
         const users = usersSnap.val();
         
-        // 1. Identifica o UID do aluno e a SÉRIE dele
         let alunoUID = Object.keys(users).find(uid => users[uid].name === nome);
         if (!alunoUID) return alert("Aluno não encontrado!");
-        
-        const serieDoAluno = users[alunoUID].serie; 
-        if (!serieDoAluno) return alert("Este aluno não possui uma série cadastrada no perfil.");
 
-        // 2. Busca notas do aluno PRIMEIRO para garantir que matérias com nota apareçam
+        const serieDoAluno = users[alunoUID].serie;
+        serieSelecionada = serieDoAluno;
+
+        if (!serieDoAluno) {
+            return alert("Aluno sem série cadastrada.");
+        }
+
         const gradesSnap = await get(ref(db, `grades/${alunoUID}`));
         const notas = gradesSnap.val() || {};
 
-        // 3. Filtra matérias: Atribuições + Matérias que já possuem nota no banco
         const materiasParaExibir = new Set();
-        
-        // Adiciona matérias das atribuições dos professores para essa série
+
+        // matérias dos professores
         Object.values(users).forEach(u => {
             if (u.role === "teacher" && u.atribuicoes && u.atribuicoes[serieDoAluno]) {
                 u.atribuicoes[serieDoAluno].forEach(m => materiasParaExibir.add(m));
             }
         });
 
-        // Adiciona matérias que já possuem notas gravadas (evita que notas sumam)
+        // matérias que já têm nota
         Object.keys(notas).forEach(mat => materiasParaExibir.add(mat));
 
-        const listaFinalMaterias = Array.from(materiasParaExibir).sort((a, b) => a.localeCompare(b, 'pt-BR'));
+        const listaFinalMaterias = Array.from(materiasParaExibir)
+            .sort((a, b) => a.localeCompare(b, 'pt-BR'));
 
         if (listaFinalMaterias.length === 0) {
-            return alert("Nenhuma matéria ou nota encontrada para " + serieDoAluno);
+            return alert("Nenhuma matéria encontrada.");
         }
 
         corpo.innerHTML = "";
         dadosGlobaisBoletim = [];
         alunoSelecionadoNome = nome;
-        document.getElementById("infoAlunoPreview").innerText = `${nome} - ${serieDoAluno}`;
 
-        // 4. Gera a tabela com arredondamento e cores
+        document.getElementById("infoAlunoPreview").innerText =
+            `${nome} - ${serieDoAluno}`;
+
+        // ----------------------------
+        // 🔥 GERAÇÃO DA TABELA
+        // ----------------------------
         listaFinalMaterias.forEach(mat => {
-            let somaMedias = 0, totalFaltas = 0, bimsComNota = 0;
+            let somaMedias = 0;
+            let totalFaltas = 0;
+
             let nBims = [];
             let estilosBims = [];
 
             for (let b = 1; b <= 4; b++) {
                 const dado = (notas[mat] && notas[mat][b]) ? notas[mat][b] : null;
 
-                // AJUSTE: Transformamos em número e arredondamos para a exibição individual
-                const notaBruta = (dado && dado.media !== undefined && dado.media !== null && dado.media !== "") 
-                                  ? parseFloat(dado.media) : ""; 
-                const notaLimpa = notaBruta !== "" ? Math.round(notaBruta) : "";
+                let notaBruta = normalizarNota(dado?.media);
 
-                const faltaValor = (dado && dado.faltas) ? parseInt(dado.faltas) : 0;
+                let notaExibicao = "";
 
-                nBims.push(notaLimpa);
-                
-                // Cor vermelha para nota do bimestre < 6
-                const corBim = (notaLimpa !== "" && notaLimpa < 6) ? "color: red;" : "";
-                estilosBims.push(corBim);
+                if (notaBruta !== null && !isNaN(notaBruta)) {
+                    const notaArredondada = arredondarEscola(notaBruta);
+                    notaExibicao = notaArredondada.toString().replace(".", ",");
 
-                if (notaBruta !== "") { 
-                    somaMedias += notaBruta; 
-                    bimsComNota++; 
+                    somaMedias += notaBruta;
+                } else {
+                    somaMedias += 0; // 🔥 garante divisão por 4
                 }
+
+                const faltaValor = Number(dado?.faltas ?? 0);
                 totalFaltas += faltaValor;
+
+                nBims.push(notaExibicao);
+
+                const cor = (notaExibicao !== "" && parseFloat(notaExibicao.replace(",", ".")) < 6)
+                    ? "color: red;" : "";
+
+                estilosBims.push(cor);
             }
 
-            // --- ARREDONDAMENTO E COR DA MÉDIA FINAL ---
-            const mediaBase = bimsComNota > 0 ? (somaMedias / bimsComNota) : null;
-            const mediaFinalArredondada = mediaBase !== null ? Math.round(mediaBase) : "";
-            const corMediaFinal = (mediaFinalArredondada !== "" && mediaFinalArredondada < 6) ? "color: red;" : "";
-            
+            // 🔥 MÉDIA FINAL /4 + ARREDONDAMENTO ESCOLA
+            const mediaBase = somaMedias / 4;
+            const mediaFinal = arredondarEscola(mediaBase);
+
+            const corMediaFinal = (mediaFinal < 6) ? "color: red;" : "";
+
             const faltasExibir = totalFaltas > 0 ? totalFaltas : "";
 
             const tr = document.createElement("tr");
@@ -484,38 +557,130 @@ document.getElementById("btnVisualizarBoletim")?.addEventListener("click", async
                 <td style="${estilosBims[1]}">${nBims[1]}</td>
                 <td style="${estilosBims[2]}">${nBims[2]}</td>
                 <td style="${estilosBims[3]}">${nBims[3]}</td>
-                <td style="font-weight: bold; ${corMediaFinal}">${mediaFinalArredondada}</td>
+                <td style="font-weight:bold; ${corMediaFinal}">
+                    ${mediaFinal.toString().replace(".", ",")}
+                </td>
                 <td>${faltasExibir}</td>
             `;
+
             corpo.appendChild(tr);
 
-            // Salva os dados para o PDF
-            dadosGlobaisBoletim.push([mat, nBims[0], nBims[1], nBims[2], nBims[3], mediaFinalArredondada, faltasExibir]);
+            dadosGlobaisBoletim.push([
+                mat,
+                nBims[0],
+                nBims[1],
+                nBims[2],
+                nBims[3],
+                mediaFinal,
+                faltasExibir
+            ]);
         });
 
         document.getElementById("areaPreview").style.display = "block";
-    } catch (e) { 
+
+    } catch (e) {
         console.error("Erro no boletim:", e);
-        alert("Erro ao carregar boletim."); 
+        alert("Erro ao carregar boletim.");
     }
 });
 
-// --- PDF E DATALIST PERMANECEM IGUAIS ---
-
+// ----------------------------
+// 📄 PDF
+// ----------------------------
 document.getElementById("btnBaixarPDFConfirmado")?.addEventListener("click", () => {
+
     const { jsPDF } = window.jspdf;
     const doc = new jsPDF();
-    doc.text("BOLETIM - COLÉGIO SABER", 10, 10);
-    doc.autoTable({ head: [['Matéria', '1ºB', '2ºB', '3ºB', '4ºB', 'Média', 'Faltas']], body: dadosGlobaisBoletim });
-    doc.save(`Boletim_${alunoSelecionadoNome}.pdf`);
+
+    // ===== LOGO =====
+    const logo = new Image();
+
+    // caminho da logo
+    logo.src = "/Assets/logo cs.png";
+    
+
+
+    logo.onload = () => {
+
+        // ===== IMAGEM =====
+        doc.addImage(logo, "PNG", 15, 8, 40, 22);
+
+        // ===== TITULO =====
+        doc.setFontSize(18);
+        doc.setTextColor(50, 6, 109);
+
+        doc.text("BOLETIM ESCOLAR", 105, 18, {
+            align: "center"
+        });
+
+        // ===== DADOS =====
+        doc.setFontSize(12);
+        doc.setTextColor(0, 0, 0);
+
+        doc.text(`Aluno: ${alunoSelecionadoNome}`, 10, 42);
+        doc.text(`Série: ${serieSelecionada}`, 10, 49);
+
+        // ===== REMOVE MÉDIA =====
+        const dadosSemMedia = dadosGlobaisBoletim.map(linha => [
+            linha[0], // matéria
+            linha[1], // 1º
+            linha[2], // 2º
+            linha[3], // 3º
+            linha[4], // 4º
+            linha[6]  // faltas
+        ]);
+
+        // ===== TABELA =====
+        doc.autoTable({
+
+            startY: 58,
+
+            head: [[
+                'Matéria',
+                '1ºB',
+                '2ºB',
+                '3ºB',
+                '4ºB',
+                'Faltas'
+            ]],
+
+            body: dadosSemMedia,
+
+            headStyles: {
+                fillColor: [50, 6, 109]
+            },
+
+            styles: {
+                halign: 'center'
+            },
+
+            columnStyles: {
+                0: {
+                    halign: 'left'
+                }
+            }
+        });
+
+        // ===== SALVAR =====
+        doc.save(`Boletim_${alunoSelecionadoNome}.pdf`);
+    };
 });
 
-document.getElementById("btnFecharPreview")?.addEventListener("click", () => document.getElementById("areaPreview").style.display = "none");
+// ----------------------------
+// ❌ FECHAR
+// ----------------------------
+document.getElementById("btnFecharPreview")?.addEventListener("click", () => {
+    document.getElementById("areaPreview").style.display = "none";
+});
 
+// ----------------------------
+// 👥 LISTA DE ALUNOS
+// ----------------------------
 async function carregarAlunosDatalist() {
     const snap = await get(ref(db, "users"));
     const dados = snap.val();
     const datalist = document.getElementById("listaAlunos");
+
     if (!dados || !datalist) return;
 
     const nomesOrdenados = Object.values(dados)
@@ -524,6 +689,7 @@ async function carregarAlunosDatalist() {
         .sort((a, b) => (a || "").localeCompare(b || "", 'pt-BR'));
 
     datalist.innerHTML = "";
+
     nomesOrdenados.forEach(nome => {
         const opt = document.createElement("option");
         opt.value = nome;

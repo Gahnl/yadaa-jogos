@@ -5,13 +5,15 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Painel do Professor - Colégio Saber</title>
   <link rel="stylesheet" href="professor.css">
+  
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.28/jspdf.plugin.autotable.min.js"></script>
 </head>
 <body>
 <header>
   <img src="Assets/logo cs.png" alt="Logo Escola" class="logo-left">
   <div class="header-text">
-    <h1>Colégio Saber de Igaraçu do Tietê</h1>
+    <h1>Painel do Professor</h1>
   </div>
   <img src="Assets/ClassEdu_logo_hd-removebg-preview - Copia.png" alt="Logo Sistema" class="logo-right">
 </header>
@@ -52,19 +54,14 @@
       <table id="tabelaNotas" class="tabela-cabecalho-roxo">
         <thead>
           <tr>
-           <thead>
-  <tr>
-    <th>Aluno</th>
-    <th>P1</th> 
-    <th>P2</th> 
-    <th>Trab</th> 
-    <th>Recup</th> 
-    <th>MB</th>
-    <th>MF</th>
-    <th>Faltas</th>
-  </tr>
-</thead>
-            
+            <th>Aluno</th>
+            <th>P1</th> 
+            <th>P2</th> 
+            <th>Trab</th> 
+            <th>Recup</th> 
+            <th>MB</th>
+            <th>MF</th>
+            <th>Faltas</th>
           </tr>
         </thead>
         <tbody id="corpoTabelaNotas"></tbody>
@@ -118,7 +115,7 @@
 </main>
 
 <footer>
-  <p>© 2025 - Colégio Saber Igaraçu do Tietê</p>
+  <p>© 2026 - Colégio Saber Igaraçu do Tietê</p>
 </footer>
 
 <script type="module" src="js/professor.js"></script>
